@@ -235,6 +235,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 /* intro */
 .loader{position:absolute;inset:0;z-index:29;display:grid;place-items:center;background:#f1e8f6;color:#2a1d3d}
+.lsv{display:block;width:min(78vw,560px);height:auto}
 .lw{position:relative;font:400 min(30vw,34vh)/1 var(--serif);letter-spacing:-.02em}
 .lw .lf{position:absolute;inset:0;color:#7251b5;clip-path:inset(100% 0 0 0)}
 .loader small{position:absolute;bottom:12vh;font:700 13px/1 var(--cond);letter-spacing:.4em;text-transform:uppercase;opacity:.6}
@@ -1211,11 +1212,31 @@ ambient(); fxResize();
 const start = Math.max(0, Math.min(P.length-1, (parseInt(location.hash.slice(1)) || 1) - 1));
 if(NOINTRO){ $('#loader').style.display = 'none'; cur = start; renderSlide(start); enter(start); restartAuto(); busy = true; }
 else {
-  const lf = document.querySelector('.lf');
-  gsap.timeline()
-    .fromTo('.lw', { opacity:0, y:30 }, { opacity:1, y:0, duration:.8, ease:'expo.out' })
-    .to(lf, { clipPath:'inset(0% 0 0 0)', duration:1.1, ease:'power2.inOut' }, .2)
-    .call(() => goTo(start, true), null, 1.35);
+  (async () => {
+    const lw = document.querySelector('.lw'), NS = 'http://www.w3.org/2000/svg';
+    gsap.set('.loader small', { opacity:0 });
+    await Promise.race([Promise.all([document.fonts.load("200px 'Pinyon Script'"), document.fonts.load("140px 'Instrument Serif'")]), new Promise(r => setTimeout(r, 1800))]);
+    lw.innerHTML = '<svg class="lsv" overflow="visible"></svg>';
+    const svg = lw.firstChild, els = [];
+    let x = 0;
+    [['L',"'Pinyon Script'",250,'#7251b5',-12], ['u',"'Instrument Serif'",160,'#2a1d3d',0], ['n',"'Instrument Serif'",160,'#2a1d3d',0], ['a',"'Instrument Serif'",160,'#2a1d3d',0]].forEach(([ch, ff, fs, col, kern]) => {
+      const t = document.createElementNS(NS, 'text'); t.textContent = ch;
+      t.setAttribute('x', x); t.setAttribute('y', 0); t.setAttribute('font-family', ff); t.setAttribute('font-size', fs);
+      t.setAttribute('fill', col); t.setAttribute('stroke', col); t.setAttribute('stroke-width', ch === 'L' ? 1.4 : 1.2);
+      t.setAttribute('fill-opacity', 0); t.style.strokeDasharray = 2400; t.style.strokeDashoffset = 2400;
+      svg.appendChild(t); x += t.getComputedTextLength() + kern; els.push(t);
+    });
+    const bb = svg.getBBox(); svg.setAttribute('viewBox', `${bb.x - 30} ${bb.y - 20} ${bb.width + 60} ${bb.height + 40}`);
+    const tl = gsap.timeline();
+    els.forEach((t, k) => {
+      const d = k ? .42 : 1.05, at = k ? 0.85 + (k - 1)*.36 : 0;
+      tl.to(t.style, { strokeDashoffset:0, duration:d, ease:k ? 'power1.inOut' : 'power2.inOut' }, at)
+        .to(t, { attr:{ 'fill-opacity':1 }, duration:.45, ease:'power1.out' }, at + d*.55)
+        .to(t, { attr:{ 'stroke-width':0 }, duration:.4 }, at + d*.8);
+    });
+    tl.to('.loader small', { opacity:.6, y:0, duration:.6, ease:'power2.out' }, 1.9)
+      .call(() => goTo(start, true), null, 2.75);
+  })();
 }
 
 /* =====================================================================
