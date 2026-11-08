@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#e7d6ee">
+<meta name="theme-color" content="#dec9e9">
 <title>Luna — Gloss & Mascara</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#e7d6ee; --ink:#fbf8ff; --accent:#9b7be0; --sh:#7b5bbf; --shL:#c9b5f2; --shD:#4b3480; --cap:#1a0508; --tube:#111;
+  --bg:#dec9e9; --ink:#fbf8ff; --accent:#815ac0; --sh:#7251b5; --shL:#c19ee0; --shD:#6247aa; --cap:#1a0508; --tube:#111;
   --mx:0; --my:0;
   --head:84px; --foot:112px;
   --cond:"Barlow Condensed","Arial Narrow",sans-serif;
@@ -20,7 +20,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{background:#f6f2fb;color:#2a1d3d;font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:#f6f0fa;color:#2a1d3d;font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body.lock{overflow:hidden}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .stage{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden;background:var(--bg);color:var(--ink);transition:color .6s;touch-action:pan-y;user-select:none}
@@ -189,7 +189,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 /* ---------- chrome ---------- */
 .top{position:fixed;z-index:80;left:0;right:0;top:0;height:var(--head);padding:0 6vw;display:flex;align-items:center;justify-content:space-between;color:var(--ink);transition:background .35s,color .35s,height .35s,box-shadow .35s}
 .top.tint{background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);height:64px}
-.top.solid{--ink:#2a1d3d;--accent:#7b5bbf;background:rgba(246,242,251,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(42,29,61,.08);height:64px}
+.top.solid{--ink:#2a1d3d;--accent:#7251b5;background:rgba(246,240,250,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(42,29,61,.08);height:64px}
 .top.solid .ic{border-color:rgba(42,29,61,.14)}
 .logo{display:flex;align-items:baseline;gap:10px}
 .logo b{font:400 38px/1 var(--serif);letter-spacing:-.01em}
@@ -234,9 +234,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .stage.reel .cursor{display:none}
 
 /* intro */
-.loader{position:absolute;inset:0;z-index:29;display:grid;place-items:center;background:#efe8f8;color:#2a1d3d}
+.loader{position:absolute;inset:0;z-index:29;display:grid;place-items:center;background:#f1e8f6;color:#2a1d3d}
 .lw{position:relative;font:400 min(30vw,34vh)/1 var(--serif);letter-spacing:-.02em}
-.lw .lf{position:absolute;inset:0;color:#7b5bbf;clip-path:inset(100% 0 0 0)}
+.lw .lf{position:absolute;inset:0;color:#7251b5;clip-path:inset(100% 0 0 0)}
 .loader small{position:absolute;bottom:12vh;font:700 13px/1 var(--cond);letter-spacing:.4em;text-transform:uppercase;opacity:.6}
 
 /* ---------- phones ---------- */
@@ -270,7 +270,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .mob .ghost{font-size:26vh;top:46%}
 
 /* =================================================================== STORE (below the hero) */
-.site{--k:#2a1d3d;--k2:#6d6380;--line:rgba(42,29,61,.1);--red:#7b5bbf;--card:#fff;color:var(--k);position:relative;z-index:1}
+.site{--k:#2a1d3d;--k2:#6d6380;--line:rgba(42,29,61,.1);--red:#7251b5;--card:#fff;color:var(--k);position:relative;z-index:1}
 .wrap{max-width:1240px;margin:0 auto;padding:0 6vw}
 .sec{padding:84px 0}
 .sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:30px}
@@ -279,11 +279,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .h2 em{font:italic 400 1em/1 var(--serif);text-transform:none;color:var(--red);letter-spacing:0}
 .lnk{font:700 13px/1 var(--cond);letter-spacing:.2em;text-transform:uppercase;color:var(--k);text-decoration:none;border-bottom:1.5px solid;padding-bottom:4px;white-space:nowrap}
 /* trust bar */
-.trust{background:#2a1d3d;color:#f6f2fb}
+.trust{background:#2a1d3d;color:#f6f0fa}
 .trust .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
 .tr{display:flex;align-items:center;gap:12px;padding:20px 18px;border-left:1px solid rgba(255,255,255,.1)}
 .tr:first-child{border-left:0}
-.tr svg{flex:none;width:24px;height:24px;fill:none;stroke:#c9b5f2;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tr svg{flex:none;width:24px;height:24px;fill:none;stroke:#c19ee0;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .tr b{display:block;font:700 14px/1.1 var(--cond);letter-spacing:.1em;text-transform:uppercase}
 .tr small{display:block;margin-top:3px;font:400 12.5px/1.3 var(--sans);opacity:.7}
 /* filters */
@@ -330,19 +330,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .cat-t .go{flex:none;width:54px;height:54px;border-radius:50%;background:#fff;color:var(--k);display:grid;place-items:center}
 .cat-t .go svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* duo bundle */
-.duo{position:relative;border-radius:26px;overflow:hidden;background:radial-gradient(70% 90% at 80% 50%,#8f72cf,#4b3480);color:#fbf8ff;min-height:440px;display:flex;align-items:center}
+.duo{position:relative;border-radius:26px;overflow:hidden;background:radial-gradient(70% 90% at 80% 50%,#9163cb,#6247aa);color:#fbf8ff;min-height:440px;display:flex;align-items:center}
 .duo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .duo::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(60,4,14,.92) 0,rgba(60,4,14,.6) 42%,transparent 70%)}
 .duo-c{position:relative;z-index:2;padding:52px;max-width:560px}
-.duo-c .kick{color:#c9b5f2}
+.duo-c .kick{color:#c19ee0}
 .duo-c p{margin:16px 0 24px;font:400 16px/1.55 var(--sans);opacity:.88;max-width:420px}
 .duo-p{display:flex;align-items:baseline;gap:12px;margin-bottom:22px;font:800 46px/1 var(--cond)}
 .duo-p s{font:600 22px/1 var(--cond);opacity:.6}
-.duo-p em{font:700 13px/1 var(--cond);letter-spacing:.2em;font-style:normal;text-transform:uppercase;padding:8px 12px;border-radius:99px;background:#9b7be0;color:#fff}
+.duo-p em{font:700 13px/1 var(--cond);letter-spacing:.2em;font-style:normal;text-transform:uppercase;padding:8px 12px;border-radius:99px;background:#815ac0;color:#fff}
 .btn{height:56px;padding:0 30px;border-radius:99px;background:#fbf8ff;color:#2a1d3d;display:inline-flex;align-items:center;gap:10px;font:700 15px/1 var(--cond);letter-spacing:.2em;text-transform:uppercase;transition:transform .2s,background .25s,opacity .25s}
 .btn:active{transform:scale(.96)}
 .btn.dk{background:#2a1d3d;color:#fff}
-.btn.rd{background:#7b5bbf;color:#fff}
+.btn.rd{background:#7251b5;color:#fff}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* reviews */
@@ -362,7 +362,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .qa[open] summary::after{transform:rotate(45deg)}
 .qa p{padding:0 0 22px;font:400 16px/1.6 var(--sans);color:var(--k2);max-width:680px}
 /* footer */
-.foot{background:#2a1d3d;color:#f6f2fb;padding:64px 0 calc(40px + env(safe-area-inset-bottom))}
+.foot{background:#2a1d3d;color:#f6f0fa;padding:64px 0 calc(40px + env(safe-area-inset-bottom))}
 .foot .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:34px}
 .foot b.lg{font:400 46px/1 var(--serif)}
 .foot h4{font:700 12px/1 var(--cond);letter-spacing:.24em;text-transform:uppercase;opacity:.6;margin-bottom:16px}
@@ -370,7 +370,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .foot p{font:400 14px/1.6 var(--sans);opacity:.7;margin-top:14px;max-width:300px}
 .news{display:flex;margin-top:4px;border-radius:99px;background:rgba(255,255,255,.08);padding:5px}
 .news input{flex:1;min-width:0;background:none;border:0;color:#fff;padding:0 16px;font:400 16px var(--sans);outline:none}
-.news button{height:44px;padding:0 18px;border-radius:99px;background:#f6f2fb;color:#2a1d3d;font:700 13px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase}
+.news button{height:44px;padding:0 18px;border-radius:99px;background:#f6f0fa;color:#2a1d3d;font:700 13px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase}
 .pay{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
 .pay span{padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.2);font:700 11px/1 var(--cond);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
 .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding-top:22px;font:400 12.5px/1.5 var(--sans);opacity:.5}
@@ -378,7 +378,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 /* =================================================================== overlays: sheet + bag drawer */
 .scrim{position:fixed;inset:0;z-index:90;background:rgba(20,4,8,.45);opacity:0;pointer-events:none;transition:opacity .35s}
 .scrim.on{opacity:1;pointer-events:auto}
-.drawer{position:fixed;z-index:95;top:0;right:0;bottom:0;width:min(440px,100vw);background:#f6f2fb;color:#2a1d3d;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .45s cubic-bezier(.7,0,.2,1);box-shadow:-30px 0 60px -30px rgba(0,0,0,.35)}
+.drawer{position:fixed;z-index:95;top:0;right:0;bottom:0;width:min(440px,100vw);background:#f6f0fa;color:#2a1d3d;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .45s cubic-bezier(.7,0,.2,1);box-shadow:-30px 0 60px -30px rgba(0,0,0,.35)}
 .drawer.on{transform:none}
 .dh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px;border-bottom:1px solid rgba(42,29,61,.1)}
 .dh b{font:800 24px/1 var(--cond);text-transform:uppercase;letter-spacing:.02em}
@@ -387,7 +387,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .ship{padding:14px 22px;border-bottom:1px solid rgba(42,29,61,.1);font:500 13.5px/1.4 var(--sans)}
 .ship .pb{height:6px;border-radius:9px;background:rgba(42,29,61,.08);margin-top:9px;overflow:hidden}
-.ship .pb i{display:block;height:100%;width:0;background:#7b5bbf;border-radius:inherit;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.ship .pb i{display:block;height:100%;width:0;background:#7251b5;border-radius:inherit;transition:width .6s cubic-bezier(.2,.8,.2,1)}
 .db{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:4px 22px}
 .li{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:start;padding:16px 0;border-bottom:1px solid rgba(42,29,61,.08)}
 .th{position:relative;width:76px;height:92px;border-radius:12px;background:var(--pbg);overflow:hidden}
@@ -407,7 +407,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .df{padding:16px 22px calc(16px + env(safe-area-inset-bottom));border-top:1px solid rgba(42,29,61,.1);background:#fff}
 .row{display:flex;justify-content:space-between;align-items:baseline;font:500 14.5px/1.9 var(--sans)}
 .row.tot{font:800 24px/1.4 var(--cond);text-transform:uppercase}
-.row.sv{color:#7b5bbf}
+.row.sv{color:#7251b5}
 .df .btn{width:100%;justify-content:center;margin-top:10px;height:58px}
 .note{margin-top:10px;text-align:center;font:400 12.5px/1.4 var(--sans);color:#6d6380}
 /* checkout form */
@@ -418,24 +418,24 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .fld input,.fld textarea{height:52px;border-radius:12px;border:1.5px solid rgba(42,29,61,.16);background:#fff;padding:0 14px;font:400 16px var(--sans);color:#2a1d3d;outline:none;transition:border-color .2s;width:100%}
 .fld textarea{height:76px;padding:12px 14px;resize:none}
 .fld input:focus,.fld textarea:focus{border-color:#2a1d3d}
-.fld.bad input{border-color:#7b5bbf;background:#fbf5ff}
+.fld.bad input{border-color:#7251b5;background:#fbf5ff}
 .opt{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;border:1.5px solid rgba(42,29,61,.16);background:#fff;cursor:pointer}
-.opt input{accent-color:#7b5bbf;width:20px;height:20px;flex:none}
+.opt input{accent-color:#7251b5;width:20px;height:20px;flex:none}
 .opt b{font:600 15px/1.2 var(--sans)}.opt small{display:block;font:400 12.5px/1.3 var(--sans);color:#6d6380;margin-top:2px}
 .opt:has(input:checked){border-color:#2a1d3d;box-shadow:inset 0 0 0 1px #2a1d3d}
 .done{padding:50px 6px;text-align:center}
-.done .ok{width:74px;height:74px;margin:0 auto 18px;border-radius:50%;background:#7b5bbf;display:grid;place-items:center}
+.done .ok{width:74px;height:74px;margin:0 auto 18px;border-radius:50%;background:#7251b5;display:grid;place-items:center}
 .done .ok svg{width:34px;height:34px;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .done b{display:block;font:800 32px/1 var(--cond);text-transform:uppercase}
 .done p{margin:12px auto 0;max-width:300px;color:#6d6380;line-height:1.5}
 /* product sheet: bottom sheet on phones, modal on desktop */
-.sheet{position:fixed;z-index:95;left:0;right:0;bottom:0;margin:0 auto;width:min(920px,100vw);max-height:92vh;max-height:92svh;background:#f6f2fb;color:#2a1d3d;border-radius:24px 24px 0 0;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;transform:translateY(105%);transition:transform .5s cubic-bezier(.7,0,.2,1)}
+.sheet{position:fixed;z-index:95;left:0;right:0;bottom:0;margin:0 auto;width:min(920px,100vw);max-height:92vh;max-height:92svh;background:#f6f0fa;color:#2a1d3d;border-radius:24px 24px 0 0;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;transform:translateY(105%);transition:transform .5s cubic-bezier(.7,0,.2,1)}
 .sheet.on{transform:none}
 @media (min-width:761px){.sheet{bottom:auto;top:50%;border-radius:24px;transform:translateY(60vh);opacity:0;transition:transform .5s cubic-bezier(.7,0,.2,1),opacity .3s}.sheet.on{transform:translateY(-50%);opacity:1}}
 .sh-img{position:relative;background:var(--pbg);min-height:440px}
 .sh-img>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .sh-b{position:relative;padding:30px 30px calc(24px + env(safe-area-inset-bottom));overflow-y:auto;display:flex;flex-direction:column;gap:14px}
-.sheet>.x{position:absolute;right:16px;top:16px;background:#f6f2fb;z-index:3}
+.sheet>.x{position:absolute;right:16px;top:16px;background:#f6f0fa;z-index:3}
 .sh-b h3{font:800 44px/.92 var(--cond);text-transform:uppercase;padding-right:40px}
 .sh-b .dsc{font:400 15px/1.55 var(--sans);color:#6d6380}
 .sh-pr{font:800 34px/1 var(--cond)}
@@ -449,7 +449,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .sh-buy .btn{flex:1;justify-content:center;height:56px;padding:0 18px}
 .perks{display:grid;gap:9px;padding-top:12px;border-top:1px solid rgba(42,29,61,.1);font:500 13.5px/1.4 var(--sans);color:#6d6380}
 .perks span{display:flex;gap:10px;align-items:center}
-.perks svg{flex:none;width:18px;height:18px;fill:none;stroke:#7b5bbf;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.perks svg{flex:none;width:18px;height:18px;fill:none;stroke:#7251b5;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 /* toast + sticky bag bar */
 .toast{position:fixed;z-index:99;left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100vw - 24px);top:76px;display:flex;align-items:center;gap:14px;padding:8px 8px 8px 18px;border-radius:99px;background:#2a1d3d;color:#fff;font:500 14px/1.2 var(--sans);box-shadow:0 18px 40px -16px rgba(0,0,0,.5);opacity:0;transform:translateY(-14px);pointer-events:none;transition:.35s cubic-bezier(.2,.8,.2,1)}
 .toast.on{opacity:1;transform:none;pointer-events:auto}
@@ -458,7 +458,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .sbar.on{transform:none}
 .sbar b{font:700 15px/1.1 var(--cond);letter-spacing:.08em;text-transform:uppercase}
 .sbar small{display:block;font:400 12.5px/1.2 var(--sans);opacity:.7}
-.sbar .btn{height:48px;padding:0 20px;font-size:14px;background:#9b7be0;color:#fff}
+.sbar .btn{height:48px;padding:0 20px;font-size:14px;background:#815ac0;color:#fff}
 
 /* =================================================================== phones */
 @media (max-width:760px){
@@ -512,11 +512,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .sp{width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;border:0;background:none}
 .sp i{width:34px;height:34px}
 .sp span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.sp.on{box-shadow:0 0 0 2px #f6f2fb,0 0 0 4px #2a1d3d}
+.sp.on{box-shadow:0 0 0 2px #f6f0fa,0 0 0 4px #2a1d3d}
 .up{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;margin:16px 0 10px;padding:12px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px rgba(42,29,61,.08)}
 .up .th{width:64px;height:76px}
 .up b{font:700 15px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.03em}
-.up small{display:block;margin-top:4px;font:500 12.5px/1.3 var(--sans);color:#7b5bbf}
+.up small{display:block;margin-top:4px;font:500 12.5px/1.3 var(--sans);color:#7251b5}
 .up .add{height:40px;padding:0 14px}
 .ship{font-size:13px}.ship .pb{height:4px}
 @media (max-width:760px){.sh-img{height:40svh}}
@@ -524,9 +524,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 /* Luna wordmark: copperplate L that swoops under "una" */
 .luna{display:inline-flex;align-items:baseline;white-space:nowrap}
-.luna i{font:400 1.42em/0 'Pinyon Script',cursive;font-style:normal;color:var(--accent,#7b5bbf);margin-right:-.05em;position:relative;top:.07em}
-.foot .luna i{color:#9b7be0}
-.lw .luna i{color:#7b5bbf}.lw .lf.luna i{color:inherit}
+.luna i{font:400 1.42em/0 'Pinyon Script',cursive;font-style:normal;color:var(--accent,#7251b5);margin-right:-.05em;position:relative;top:.07em}
+.foot .luna i{color:#815ac0}
+.lw .luna i{color:#7251b5}.lw .lf.luna i{color:inherit}
+.duo .h2 em{color:#efe4fa}
 .slot>img,.grain,.demo svg{will-change:transform}
 </style>
 </head>
@@ -583,8 +584,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
   <section class="sec" style="padding-top:0"><div class="wrap">
     <div class="cats">
-      <button class="cat" data-go="gloss" style="--cbg:linear-gradient(160deg,#7b5bbf,#4b3480)"><img src="img/site/cat-gloss.webp" alt="" loading="lazy" onerror="this.remove()"><div class="cat-t"><div><b>Lip gloss</b><small>High shine, never sticky</small></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
-      <button class="cat" data-go="mascara" style="--cbg:linear-gradient(160deg,#b79ce6,#4b3480)"><img src="img/site/cat-mascara.webp" alt="" loading="lazy" onerror="this.remove()"><div class="cat-t"><div><b>Mascara</b><small>Volume, curl, waterproof</small></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
+      <button class="cat" data-go="gloss" style="--cbg:linear-gradient(160deg,#7251b5,#6247aa)"><img src="img/site/cat-gloss.webp" alt="" loading="lazy" onerror="this.remove()"><div class="cat-t"><div><b>Lip gloss</b><small>High shine, never sticky</small></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
+      <button class="cat" data-go="mascara" style="--cbg:linear-gradient(160deg,#b185db,#6247aa)"><img src="img/site/cat-mascara.webp" alt="" loading="lazy" onerror="this.remove()"><div class="cat-t"><div><b>Mascara</b><small>Volume, curl, waterproof</small></div><span class="go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
     </div>
   </div></section>
 
@@ -659,37 +660,37 @@ let LAYERS = {"big-night": {"tube": {"w": 138, "h": 670}, "wand": {"w": 134, "h"
 const P = [
  { id:'cherry-glaze', kind:'gloss', n:'Lip Gloss', badge:'Bestseller', t1:'Cherry', t2:'Glaze', serif:'like glass, but juicier',
    desc:'A cushiony high-shine gloss with a sheer cherry tint. Melts on, never sticks, and leaves your lips looking freshly kissed for hours.',
-   bg:'#e7d6ee', ink:'#3b1530', accent:'#b0234a', spark:'#ffffff', cap:'#160407',
+   bg:'#dec9e9', ink:'#2e1a45', accent:'#a01f45', spark:'#ffffff', cap:'#160407',
    shades:[['Cherry Glaze','#c8102e'],['Black Cherry','#5e0a1c'],['Cherry Pop','#ff2d58'],['Sheer Cherry','#e2677a']],
    claims:['High shine','Non-sticky','Hyaluronic acid'], price:24, stat:{v:12,u:'H',ring:'hours of shine • non-sticky • '},
    extras:['cherries','glossy-cherry','gloss-splash','satin-ribbon'] },
  { id:'pink-syrup', kind:'gloss', n:'Lip Gloss', badge:'New', t1:'Pink', t2:'Syrup', serif:'sweet, sheer, never sticky',
    desc:'Candy-pink shine with a micro-shimmer that catches every light. Smells like warm vanilla, wears like a dream.',
-   bg:'#f0d8ee', ink:'#3d1235', accent:'#b52a78', spark:'#ffffff', cap:'#fbeef3',
+   bg:'#dac3e8', ink:'#3a1240', accent:'#a52672', spark:'#ffffff', cap:'#fbeef3',
    shades:[['Pink Syrup','#ff4f93'],['Bubblegum','#ff8dbd'],['Rose Candy','#d93272'],['Pink Pearl','#f4a2c1']],
    claims:['Vanilla scent','Micro-shimmer','Vegan'], price:22, stat:{v:8,u:'H',ring:'hours of glow • vegan formula • '},
    extras:['sugar-crystals','pink-bubble','candy-heart','syrup-drip'] },
  { id:'honey-nude', kind:'gloss', n:'Plumping Gloss', badge:'Fan favourite', t1:'Honey', t2:'Nude', serif:'your lips, only better',
    desc:'A warm nude gloss with a golden honey glow. Cushions, plumps and shines without hiding your natural shade.',
-   bg:'#ebdfe8', ink:'#3a2433', accent:'#9a5532', spark:'#fff6e6', cap:'#c99a45',
+   bg:'#d2b7e5', ink:'#35203a', accent:'#7f4526', spark:'#fff6e6', cap:'#c99a45',
    shades:[['Honey Nude','#c47e57'],['Caramel','#a45d39'],['Peach Nectar','#e69a77'],['Brown Sugar','#86472f']],
    claims:['Plumping','Golden glow','Honey extract'], price:26, stat:{v:24,u:'H',ring:'hours of moisture • plumping • '},
    extras:['honey-dipper','honeycomb','honey-drop','gold-flakes'] },
  { id:'big-night', kind:'mascara', n:'Volume Mascara', badge:'Bestseller', t1:'Big', t2:'Night', serif:'all the volume, zero clumps',
    desc:'The blackest black. A buildable volumising formula that wraps every lash from root to tip in a single sweep.',
-   bg:'#d5c8ef', ink:'#221a3a', accent:'#5a3fb0', spark:'#ffffff', cap:'#121012', tube:'#121012',
+   bg:'#9163cb', ink:'#ffffff', accent:'#efe4fa', spark:'#ffffff', cap:'#121012', tube:'#121012',
    shades:[['Ultra Black','#0b0a0c'],['Brown Black','#2b1a14'],['Midnight Blue','#1a2a6e']],
    claims:['Volume','Clump-free','Smudge-proof'], price:28, stat:{v:3,u:'X',ring:'times the volume • one sweep • '},
    extras:['black-feather','disco-sequins','silk-bow','pearl'] },
  { id:'lift-curl', kind:'mascara', n:'Curling Mascara', badge:'New', t1:'Lift &', t2:'Curl', serif:'a lash lift in a tube',
    desc:'A featherlight formula with a curved brush that grabs, lifts and holds every lash in a wide-awake curl.',
-   bg:'#cdbbeb', ink:'#24153b', accent:'#6a3fd3', spark:'#ffffff', cap:'#4b3480', tube:'#4b3480',
+   bg:'#c19ee0', ink:'#21123a', accent:'#4e2f96', spark:'#ffffff', cap:'#6247aa', tube:'#6247aa',
    shades:[['Jet Black','#0d0b10'],['Soft Black','#2a2530'],['Plum','#4a1f4f']],
    claims:['Lift','24h curl','Featherlight'], price:27, stat:{v:24,u:'H',ring:'hours of curl • no crunch • '},
    extras:['lilac-feather','lash-curler','satin-curl','pearl'] },
  { id:'brown-silk', kind:'mascara', n:'Waterproof Mascara', badge:'Waterproof', t1:'Brown', t2:'Silk', serif:'rain-proof, tear-proof, you-proof',
    desc:'A soft brown that defines without the drama. Waterproof, flake-free, and still slides off with warm water.',
-   bg:'#d6daf3', ink:'#1b2240', accent:'#3d55a8', spark:'#ffffff', cap:'#f2e6da', tube:'#f2e6da',
+   bg:'#b185db', ink:'#1d1433', accent:'#2f1f6a', spark:'#ffffff', cap:'#f2e6da', tube:'#f2e6da',
    shades:[['Brown Silk','#3b2216'],['Espresso','#24140d'],['Taupe','#5b4636']],
    claims:['Waterproof','Flake-free','16h wear'], price:29, stat:{v:16,u:'H',ring:'hours waterproof • flake-free • '},
    extras:['water-splash','water-drop','silk-swirl','ice-cube'] },
