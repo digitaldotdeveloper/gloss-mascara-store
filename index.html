@@ -548,6 +548,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   <div class="copy" id="copy"></div>
   <div class="badge-ring" id="badge"></div>
   <div class="loader" id="loader"><div class="lw"><span class="luna"><i>L</i>una</span><span class="lf luna"><i>L</i>una</span></div><small>gloss &amp; mascara</small></div>
+  <svg class="curtain kiss" id="kissOv" style="overflow:visible"></svg>
   <svg class="curtain" id="curtain"><path id="cLead"/><path id="cMain"/><g id="cHl" fill="#fff"></g></svg>
 
   <header class="top">
@@ -909,6 +910,23 @@ function rollPrice(v, delay=0){
 }
 
 /* ---------------------------------------------------------------- the pour (drip curtain) */
+function kissTo(np, from, onCover){
+  const ov = $('#kissOv'), r0 = stage.getBoundingClientRect(), W = r0.width, H = r0.height;
+  ov.setAttribute('viewBox', `0 0 ${W} ${H}`); ov.style.display = 'block';
+  ov.innerHTML = `<g id="kL"><path d="${UP}"/><path d="${LO}"/></g><g id="kM"><path d="${UP}"/><path d="${LO}"/><path id="kLine" d="M24,112 C80,116 140,110 200,117 C260,110 320,116 376,112" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="3"/></g>`;
+  const kL = $('#kL'), kM = $('#kM'), kLine = $('#kLine');
+  kL.setAttribute('fill', np.accent); kM.setAttribute('fill', from.color);
+  const s0 = from.w/400, s1 = Math.max(W/52, H/34)*1.15, st = { p:0 };
+  const place = (g, sc, x, y, r) => g.setAttribute('transform', `translate(${x},${y}) rotate(${r}) scale(${sc}) translate(-200,-122)`);
+  return gsap.timeline({ onComplete(){ ov.style.display = 'none'; ov.innerHTML = ''; } })
+    .to(st, { p:1, duration:1.15, ease:'power3.in', onUpdate(){
+      const p = st.p, x = lerp(from.x, W/2, ss(p)), y = lerp(from.y, H/2, ss(p)) - Math.sin(p*Math.PI)*H*.12;
+      const sc = s0*Math.pow(s1/s0, p), r = Math.sin(p*Math.PI)*-14;
+      place(kM, sc, x, y, r); place(kL, sc*lerp(1, 1.12, clamp(p*2)), x, y, r);
+      kM.setAttribute('fill', p < .35 ? from.color : np.bg); kLine.style.opacity = 1 - p;
+    }})
+    .call(() => onCover && onCover());
+}
 function pour(color, lead, dur, onCover){
   const W = innerWidth, H = innerHeight, sc = Math.min(W,H)/900;
   const svg = $('#curtain'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.style.display = 'block';
@@ -1113,9 +1131,16 @@ function goTo(i, first=false){
   busy = true;
   if(inTL) inTL.kill();
   const p = P[i];
+  // the kiss leaves from the lips on screen (if a gloss slide is showing), else from the centre
+  const r0 = stage.getBoundingClientRect(), dsv = demoIn.querySelector('svg');
+  let kFrom = { x:r0.width/2, y:r0.height/2, w:120, color:p.accent };
+  if(!first && P[cur] && P[cur].kind === 'gloss' && dsv){ const lr = dsv.getBoundingClientRect();
+    kFrom = { x:lr.left - r0.left + lr.width/2, y:lr.top - r0.top + lr.height*.53, w:lr.width, color:getComputedStyle(stage).getPropertyValue('--sh').trim() || p.accent };
+    gsap.to(dsv, { scaleX:.8, scaleY:1.1, transformOrigin:'50% 55%', duration:.22, ease:'power2.out', yoyo:true, repeat:1 }); }
   if(!first) leave();
   stopAuto();
-  pour(p.bg, p.accent, first ? 1.15 : 1.2, () => {
+  const cover = fn => (p.kind === 'gloss' && !first) ? gsap.delayedCall(.25, () => kissTo(p, kFrom, fn)) : pour(p.bg, p.accent, first ? 1.15 : 1.2, fn);
+  cover(() => {
     $('#loader').style.display = 'none';
     cur = i; history.replaceState(null, '', '#' + (i+1));
     renderSlide(i);
