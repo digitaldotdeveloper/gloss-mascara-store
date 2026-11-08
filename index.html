@@ -7,7 +7,7 @@
 <title>Luna — Gloss & Mascara</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Petit+Formal+Script&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#dec9e9; --ink:#fbf8ff; --accent:#815ac0; --sh:#7251b5; --shL:#c19ee0; --shD:#6247aa; --cap:#1a0508; --tube:#111;
@@ -235,7 +235,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 /* intro */
 .loader{position:absolute;inset:0;z-index:29;display:grid;place-items:center;background:#f1e8f6;color:#2a1d3d}
-.lsv{display:block;width:min(78vw,560px);height:auto}
+.lsv{display:block;width:min(82vw,600px);height:auto}
 .lw{position:relative;font:400 min(30vw,34vh)/1 var(--serif);letter-spacing:-.02em}
 .lw .lf{position:absolute;inset:0;color:#7251b5;clip-path:inset(100% 0 0 0)}
 .loader small{position:absolute;bottom:12vh;font:700 13px/1 var(--cond);letter-spacing:.4em;text-transform:uppercase;opacity:.6}
@@ -529,6 +529,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .foot .luna i{color:#815ac0}
 .lw .luna i{color:#7251b5}.lw .lf.luna i{color:inherit}
 .duo .h2 em{color:#efe4fa}
+/* Luna wordmark v2 (2026-11-08): Pinyon L + Petit Formal Script "una", one colour */
+.luna{font-family:'Petit Formal Script',cursive!important;font-style:normal!important;color:var(--accent,#7251b5)}
+.luna i{font-size:1.5em;margin-right:-.14em;top:.04em;color:inherit!important}
+.logo b.luna{font-size:26px}.mob .logo b.luna{font-size:23px}
+.foot b.lg.luna{font-size:34px;color:#c19ee0}
 .slot>img,.grain,.demo svg{will-change:transform}
 </style>
 </head>
@@ -928,6 +933,35 @@ function kissTo(np, from, onCover){
     }})
     .call(() => onCover && onCover());
 }
+// mascara slides arrive with a blink (from concept 2): lashed lids close over the screen, then open on the new slide
+const SKIN = { 'big-night':['#efc0a0','#d09676'], 'lift-curl':['#b07a55','#8c5a3a'], 'brown-silk':['#f6d5be','#e0ae92'] };
+function blinkTo(np, onCover){
+  const ov = $('#kissOv'), r0 = stage.getBoundingClientRect(), W = r0.width, H = r0.height, b = H*.16;
+  const [skin, skinD] = SKIN[np.id] || ['#efc0a0','#d09676'];
+  const norm = v => { const l = Math.hypot(v[0], v[1]) || 1; return [v[0]/l, v[1]/l]; };
+  ov.setAttribute('viewBox', `0 0 ${W} ${H}`); ov.style.display = 'block';
+  const N = Math.round(W/26);
+  ov.innerHTML = `<path id="lidU" fill="${skin}"/><path id="lidD" fill="${skin}"/><path id="crease" fill="none" stroke="${skinD}" stroke-width="4" stroke-linecap="round"/><g id="lidLash" fill="#120a0c">${'<path/>'.repeat(N)}</g>`;
+  const U = $('#lidU'), D = $('#lidD'), CR = $('#crease'), LS = [...ov.querySelectorAll('#lidLash path')];
+  const seeds = LS.map(() => rnd(.8, 1.2));
+  const draw = e => {
+    const yU = u => lerp(-b - 40, H/2 + 2, e) + b*(1 - u*u);
+    const yD = u => lerp(H + 40, H/2 - 2, e) + b*.35*(1 - u*u);
+    let du = `M-10,-10 L${W+10},-10`, dd = `M-10,${H+10} L${W+10},${H+10}`, dc = '';
+    for(let k=0;k<=40;k++){ const x = W*(1 - k/40), u = x/W*2 - 1; du += ` L${x},${yU(u)}`; }
+    for(let k=0;k<=40;k++){ const x = W*(1 - k/40), u = x/W*2 - 1; dd += ` L${x},${yD(u)}`; }
+    for(let k=0;k<=40;k++){ const x = W*.08 + W*.84*k/40, u = x/W*2 - 1; dc += `${k?'L':'M'}${x},${yU(u) - H*.14 - b*.2*(1-u*u)} `; }
+    U.setAttribute('d', du + ' Z'); D.setAttribute('d', dd + ' Z'); CR.setAttribute('d', dc); CR.style.opacity = clamp(e*1.4 - .2);
+    LS.forEach((el,k) => { const x = (k + .5)/N*W, u = x/W*2 - 1, y = yU(u), len = (40 + 50*Math.abs(u))*seeds[k]*Math.min(1, H/900)*1.4;
+      const dir = norm([u*.9, 1]), c = [x + dir[0]*len*.55, y + dir[1]*len*.55], tip = [c[0] + u*len*.5, c[1] + len*.15], w = 5;
+      el.setAttribute('d', `M${x - w},${y - 2} Q${c[0]},${c[1]} ${tip[0]},${tip[1]} Q${c[0] + w*.6},${c[1]} ${x + w},${y - 2}Z`); });
+  };
+  const st = { e:0 };
+  return gsap.timeline({ onComplete(){ ov.style.display = 'none'; ov.innerHTML = ''; } })
+    .to(st, { e:1, duration:.62, ease:'power3.in', onUpdate(){ draw(st.e); } })
+    .call(() => onCover && onCover())
+    .to(st, { e:0, duration:.75, ease:'power3.out', onUpdate(){ draw(st.e); } }, '+=.12');
+}
 function pour(color, lead, dur, onCover){
   const W = innerWidth, H = innerHeight, sc = Math.min(W,H)/900;
   const svg = $('#curtain'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.style.display = 'block';
@@ -1140,7 +1174,7 @@ function goTo(i, first=false){
     gsap.to(dsv, { scaleX:.8, scaleY:1.1, transformOrigin:'50% 55%', duration:.22, ease:'power2.out', yoyo:true, repeat:1 }); }
   if(!first) leave();
   stopAuto();
-  const cover = fn => (p.kind === 'gloss' && !first) ? gsap.delayedCall(.25, () => kissTo(p, kFrom, fn)) : pour(p.bg, p.accent, first ? 1.15 : 1.2, fn);
+  const cover = fn => first ? pour(p.bg, p.accent, 1.15, fn) : p.kind === 'gloss' ? gsap.delayedCall(.25, () => kissTo(p, kFrom, fn)) : gsap.delayedCall(.2, () => blinkTo(p, fn));
   cover(() => {
     $('#loader').style.display = 'none';
     cur = i; history.replaceState(null, '', '#' + (i+1));
@@ -1213,29 +1247,27 @@ const start = Math.max(0, Math.min(P.length-1, (parseInt(location.hash.slice(1))
 if(NOINTRO){ $('#loader').style.display = 'none'; cur = start; renderSlide(start); enter(start); restartAuto(); busy = true; }
 else {
   (async () => {
-    const lw = document.querySelector('.lw'), NS = 'http://www.w3.org/2000/svg';
-    gsap.set('.loader small', { opacity:0 });
-    await Promise.race([Promise.all([document.fonts.load("200px 'Pinyon Script'"), document.fonts.load("140px 'Instrument Serif'")]), new Promise(r => setTimeout(r, 1800))]);
-    lw.innerHTML = '<svg class="lsv" overflow="visible"></svg>';
-    const svg = lw.firstChild, els = [];
-    let x = 0;
-    [['L',"'Pinyon Script'",250,'#7251b5',-12], ['u',"'Instrument Serif'",160,'#2a1d3d',0], ['n',"'Instrument Serif'",160,'#2a1d3d',0], ['a',"'Instrument Serif'",160,'#2a1d3d',0]].forEach(([ch, ff, fs, col, kern]) => {
-      const t = document.createElementNS(NS, 'text'); t.textContent = ch;
-      t.setAttribute('x', x); t.setAttribute('y', 0); t.setAttribute('font-family', ff); t.setAttribute('font-size', fs);
-      t.setAttribute('fill', col); t.setAttribute('stroke', col); t.setAttribute('stroke-width', ch === 'L' ? 1.4 : 1.2);
-      t.setAttribute('fill-opacity', 0); t.style.strokeDasharray = 2400; t.style.strokeDashoffset = 2400;
-      svg.appendChild(t); x += t.getComputedTextLength() + kern; els.push(t);
-    });
-    const bb = svg.getBBox(); svg.setAttribute('viewBox', `${bb.x - 30} ${bb.y - 20} ${bb.width + 60} ${bb.height + 40}`);
-    const tl = gsap.timeline();
-    els.forEach((t, k) => {
-      const d = k ? .42 : 1.05, at = k ? 0.85 + (k - 1)*.36 : 0;
-      tl.to(t.style, { strokeDashoffset:0, duration:d, ease:k ? 'power1.inOut' : 'power2.inOut' }, at)
-        .to(t, { attr:{ 'fill-opacity':1 }, duration:.45, ease:'power1.out' }, at + d*.55)
-        .to(t, { attr:{ 'stroke-width':0 }, duration:.4 }, at + d*.8);
-    });
-    tl.to('.loader small', { opacity:.6, y:0, duration:.6, ease:'power2.out' }, 1.9)
-      .call(() => goTo(start, true), null, 2.75);
+    // "Luna" written with an invisible pen: img/site/luna-pen.png holds, per pixel, R = when the pen reaches it (0-255)
+    // and G = ink coverage. Made by _gen/luna_pen.py from the logo fonts and a traced stroke order (starts at the far left of the L).
+    const lw = document.querySelector('.lw'); gsap.set('.loader small', { opacity:0 });
+    const img = new Image(); img.src = 'img/site/luna-pen.png';
+    await Promise.race([img.decode().catch(() => {}), new Promise(r => setTimeout(r, 2500))]);
+    if(!img.naturalWidth){ goTo(start, true); return; }
+    const W = img.naturalWidth, H = img.naturalHeight, cv = document.createElement('canvas');
+    cv.width = W; cv.height = H; cv.className = 'lsv'; lw.innerHTML = ''; lw.appendChild(cv);
+    const cx = cv.getContext('2d', { willReadFrequently:true }); cx.drawImage(img, 0, 0);
+    let src; try { src = cx.getImageData(0, 0, W, H).data; } catch(e){ lw.innerHTML = '<span class="luna"><i>L</i>una</span>'; goTo(start, true); return; }
+    const out = cx.createImageData(W, H), o = out.data;
+    const ink = [0x72, 0x51, 0xb5], buckets = Array.from({ length:256 }, () => []);
+    for(let i = 0; i < W*H; i++){ const c = src[i*4 + 1]; if(c){ buckets[src[i*4]].push(i); o[i*4] = ink[0]; o[i*4+1] = ink[1]; o[i*4+2] = ink[2]; } }
+    cx.clearRect(0, 0, W, H);
+    let k = 0; const st = { t:0 };
+    gsap.timeline()
+      .to(st, { t:255, duration:2.6, ease:'power1.inOut', onUpdate(){ const T = Math.floor(st.t);
+        for(; k <= T; k++) for(const i of buckets[k]) o[i*4 + 3] = src[i*4 + 1];
+        cx.putImageData(out, 0, 0); } })
+      .to('.loader small', { opacity:.6, duration:.6, ease:'power2.out' }, 2.3)
+      .call(() => goTo(start, true), null, 3.1);
   })();
 }
 
