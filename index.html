@@ -522,6 +522,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .ship{font-size:13px}.ship .pb{height:4px}
 @media (max-width:760px){.sh-img{height:40svh}}
 .up .add{background:#1d0a10;color:#fff}
+.slot>img,.grain,.demo svg{will-change:transform}
 </style>
 </head>
 <body>
@@ -942,7 +943,7 @@ function pour(color, lead, dur, onCover){
 
 /* ---------------------------------------------------------------- sparkles */
 const cv = $('#fx'), cx2 = cv.getContext('2d'); let PARTS = [], sparkColor = '#fff', DPR = 1;
-function fxResize(){ DPR = Math.min(2, devicePixelRatio||1); cv.width = innerWidth*DPR; cv.height = innerHeight*DPR; }
+function fxResize(){ DPR = Math.min(innerWidth < 760 ? 1 : 1.5, devicePixelRatio||1); cv.width = innerWidth*DPR; cv.height = innerHeight*DPR; }
 function ambient(){ for(let i=0;i<(innerWidth<760?14:34);i++) PARTS.push({ x:rnd(0,innerWidth), y:rnd(0,innerHeight), vx:rnd(-.08,.08), vy:rnd(-.25,-.05), s:rnd(2,6), ph:rnd(0,6.28), sp:rnd(.02,.05), life:Infinity, amb:1, d:rnd(.3,1.4) }); }
 function burst(x, y, n=26, spread=1){
   for(let i=0;i<n;i++){ const a = rnd(0,6.28), v = rnd(1.5,6)*spread;
@@ -1114,6 +1115,7 @@ function goTo(i, first=false){
     renderSlide(i);
     enter(i);
     restartAuto();
+    setTimeout(() => warm(i + 1), 2500);
   });
   // header ink can switch while the pour runs
   gsap.delayedCall(.6, () => { stage.style.setProperty('--ink', p.ink); stage.style.setProperty('--accent', p.accent); });
@@ -1162,6 +1164,7 @@ stage.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX
 const cur$ = $('#cursor'), qx = gsap.quickTo(cur$, 'x', { duration:.25, ease:'power3' }), qy = gsap.quickTo(cur$, 'y', { duration:.25, ease:'power3' });
 const pm = { x:0, y:0 };
 addEventListener('pointermove', e => {
+  if(e.pointerType !== 'mouse') return;
   qx(e.clientX); qy(e.clientY);
   gsap.to(pm, { x:(e.clientX/innerWidth - .5)*2, y:(e.clientY/innerHeight - .5)*2, duration:1.2, ease:'power3.out', overwrite:true,
     onUpdate(){ stage.style.setProperty('--mx', pm.x.toFixed(3)); stage.style.setProperty('--my', pm.y.toFixed(3)); MX = pm.x; MY = pm.y; } });
@@ -1200,7 +1203,7 @@ document.querySelectorAll('.shT').forEach(e => e.textContent = SHOP.ship);
 
 /* product picture: the Gemini card shot, with the hero's own cut-outs as the fallback underneath */
 function pic(p){
-  return `<div class="fbx"><img src="img/${p.id}/tube.webp" alt="" onerror="this.parentNode.remove()"><img src="img/${p.id}/wand.webp" alt="" onerror="this.remove()"></div>`
+  return `<div class="fbx"><img src="img/${p.id}/tube.webp" alt="" loading="lazy" decoding="async" onerror="this.parentNode.remove()"><img src="img/${p.id}/wand.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div>`
        + `<img src="img/${p.id}/card.webp" alt="${p.t1} ${p.t2} ${p.n}" loading="lazy" onerror="this.remove()">`;
 }
 const pbg = p => `linear-gradient(160deg,${mix(p.bg,'#ffffff',.25)},${p.bg})`;
@@ -1413,6 +1416,9 @@ new IntersectionObserver(([e]) => {
 }, { threshold:.15 }).observe(stageEl);
 
 renderBag(); badge();
+function warm(i){ const p = P[(i + P.length) % P.length]; if(!p || p._w) return; p._w = 1;
+  ['tube','wand',...p.extras].forEach(n => { const im = new Image(); im.decoding = 'async'; im.src = `img/${p.id}/${n}.webp`; }); }
+warm(start); addEventListener('load', () => setTimeout(() => warm(start + 1), 1500));
 </script>
 </body>
 </html>
