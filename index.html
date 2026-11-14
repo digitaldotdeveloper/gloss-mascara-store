@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#dec9e9">
 <title>Luna — Beauty Boutique</title>
-<link rel="preload" href="img/site/luna-logo.svg" as="image">
+<link rel="preload" href="img/site/luna-pen.png" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Petit+Formal+Script&display=swap" rel="stylesheet">
@@ -548,6 +548,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .foot b.lg.luna{color:#c19ee0}
 .logo{align-items:center}
 .lw .luna.lsv{display:block!important;width:min(84vw,640px);height:auto;aspect-ratio:1.956;font-size:16px}
+.lw canvas.lsv{width:min(84vw,640px);position:relative;z-index:1}
+.lw .moon{z-index:2}.lw .spk{z-index:3}
+.lw .moon{position:absolute;inset:0;width:100%;height:100%;transform-origin:10.36% 74.61%;opacity:0;pointer-events:none}
+.lw .halo{position:absolute;left:10.36%;top:74.61%;width:24%;aspect-ratio:1;border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0,rgba(255,255,255,.7) 18%,rgba(200,160,245,.55) 36%,rgba(170,120,235,.22) 55%,rgba(170,120,235,0) 70%)}
+.lw .spk{position:absolute;display:block;aspect-ratio:1;pointer-events:none;fill:#9d74dc;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 8px rgba(130,70,225,.9))}
+.lw .spk svg{display:block;width:100%;height:100%}
 .slot>img,.grain,.demo svg{will-change:transform}
 </style>
 </head>
@@ -1261,18 +1268,54 @@ const start = Math.max(0, Math.min(P.length-1, (parseInt(location.hash.slice(1))
 if(NOINTRO){ $('#loader').style.display = 'none'; cur = start; renderSlide(start); enter(start); restartAuto(); busy = true; }
 else {
   (async () => {
-    // the Luna logo (img/site/luna-logo.svg) appears left to right with a soft edge, like it is being written
+    // "Luna" written by hand: img/site/luna-pen.png holds, per pixel, the pen time (R = high byte, B = low byte) and the ink (G).
+    // Built from the logo's centre lines with a hand-picked stroke order: the L, then u, n, a (with its tail), then the underline swash.
+    // The crescent moon inside the L (img/site/luna-moon.svg) is not written: it rises with a glow and a few sparkles.
     const lw = document.querySelector('.lw'); gsap.set('.loader small', { opacity:0 }); gsap.set('.top', { autoAlpha:0 });
     const done = () => { goTo(start, true); gsap.to('.top', { autoAlpha:1, duration:.6, delay:.5 }); };
-    const img = new Image(); img.src = 'img/site/luna-logo.svg';
+    const fallback = () => { lw.innerHTML = '<span class="luna lsv">Luna</span>'; gsap.fromTo(lw, { opacity:0 }, { opacity:1, duration:.8 });
+      gsap.to('.loader small', { opacity:.6, duration:.6, delay:.6 }); setTimeout(done, 1600); };
+    const img = new Image(); img.src = 'img/site/luna-pen.png';
     await Promise.race([img.decode().catch(() => {}), new Promise(r => setTimeout(r, 2500))]);
-    lw.innerHTML = '<span class="luna lsv">Luna</span>';
-    const st = { p:0 }, wipe = () => { const e = `linear-gradient(90deg,#000 ${st.p-8}%,transparent ${st.p}%)`; lw.style.webkitMaskImage = e; lw.style.maskImage = e; };
-    wipe();
+    if(!img.naturalWidth) return fallback();
+    const W = img.naturalWidth, H = img.naturalHeight, M = W*H, cv = document.createElement('canvas');
+    cv.width = W; cv.height = H; cv.className = 'lsv';
+    const cx = cv.getContext('2d', { willReadFrequently:true }); cx.drawImage(img, 0, 0);
+    let src; try { src = cx.getImageData(0, 0, W, H).data; } catch(e){ return fallback(); }
+    const STAR = '<svg viewBox="0 0 20 20"><path d="M10 0C10.8 6.5 13.5 9.2 20 10 13.5 10.8 10.8 13.5 10 20 9.2 13.5 6.5 10.8 0 10 6.5 9.2 9.2 6.5 10 0Z"/></svg>';
+    lw.innerHTML = ''; lw.appendChild(cv);
+    lw.insertAdjacentHTML('beforeend', '<i class="halo"></i><img class="moon" src="img/site/luna-moon.svg" alt="">'
+      + [[16.6,62,4.2],[6.8,57,2.8],[17.4,85,2.3]].map(([x,y,s]) => `<i class="spk" style="left:${x}%;top:${y}%;width:${s}%">${STAR}</i>`).join(''));
+    // ink pixels sorted by pen time (key = time * M + pixel index)
+    const out = cx.createImageData(W, H), o = out.data; let n = 0;
+    for(let i = 0; i < M; i++) if(src[i*4+1]) n++;
+    const keys = new Float64Array(n); n = 0;
+    for(let i = 0; i < M; i++) if(src[i*4+1]){ keys[n++] = (src[i*4]*256 + src[i*4+2]) * M + i; o[i*4] = 0x84; o[i*4+1] = 0x64; o[i*4+2] = 0x9e; }
+    keys.sort(); cx.clearRect(0, 0, W, H);
+    let k = 0; const st = { t:0 };
+    const draw = () => { const lim = (st.t*65535 + 1) * M; while(k < n && keys[k] < lim){ const i = keys[k++] % M; o[i*4+3] = src[i*4+1]; } cx.putImageData(out, 0, 0); };
+    const moon = lw.querySelector('.moon'), halo = lw.querySelector('.halo'), spk = lw.querySelectorAll('.spk');
+    // moon glow: brightness + a white core + two purple blooms (same structure at every step so GSAP can tween it)
+    const glow = (b, a, c, d, o) => `brightness(${b}) drop-shadow(0 0 ${a}px rgba(255,255,255,${o})) drop-shadow(0 0 ${c}px rgba(130,70,225,${o})) drop-shadow(0 0 ${d}px rgba(150,95,235,${o*.8}))`;
+    gsap.set(moon, { opacity:0, scale:.3, rotation:-50, filter:glow(1, 0, 0, 0, 0) });
+    gsap.set(halo, { xPercent:-50, yPercent:-50, scale:.2, opacity:0 });
+    gsap.set(spk, { xPercent:-50, yPercent:-50, scale:0, rotation:-45 });
+    let breathe;
     gsap.timeline()
-      .to(st, { p:108, duration:2.4, ease:'power1.inOut', onUpdate:wipe, onComplete(){ lw.style.webkitMaskImage = lw.style.maskImage = 'none'; } })
-      .to('.loader small', { opacity:.6, duration:.6, ease:'power2.out' }, 2.3)
-      .call(done, null, 3.1);
+      .to(st, { t:1, duration:2.6, ease:'sine.inOut', onUpdate:draw })
+      .to(moon, { opacity:1, scale:1, rotation:0, duration:1.1, ease:'back.out(1.6)' }, 2.0)
+      .to(halo, { opacity:1, scale:1.15, duration:.8, ease:'power2.out' }, 2.1)
+      .to(moon, { filter:glow(1.45, 6, 18, 42, 1), duration:.6, ease:'power2.out' }, 2.2)
+      .to(moon, { filter:glow(1.2, 4, 12, 28, .9), duration:.8, ease:'sine.inOut' }, 2.8)
+      .to(halo, { opacity:.75, scale:.9, duration:.8, ease:'sine.inOut' }, 2.9)
+      .to(spk, { scale:1, rotation:45, duration:.45, ease:'back.out(3)', stagger:.18 }, 2.5)
+      .to(spk, { scale:0, rotation:135, duration:.5, ease:'power2.in', stagger:.18 }, 3.2)
+      .to('.loader small', { opacity:.6, duration:.6, ease:'power2.out' }, 2.8)
+      .call(() => { breathe = gsap.timeline({ repeat:-1, yoyo:true })
+        .to(moon, { filter:glow(1.4, 6, 16, 38, 1), duration:.9, ease:'sine.inOut' }, 0)
+        .to(halo, { opacity:1, scale:1.05, duration:.9, ease:'sine.inOut' }, 0); }, null, 3.6)
+      .call(done, null, 4.0)
+      .call(() => breathe && breathe.kill(), null, 6.5);
   })();
 }
 
