@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#dec9e9">
 <title>Luna — Beauty Boutique</title>
-<link rel="preload" href="img/site/luna-pen.png" as="image">
+<link rel="preload" href="img/site/luna-logo.svg" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Petit+Formal+Script&display=swap" rel="stylesheet">
@@ -538,11 +538,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .logo b.luna{font-size:26px}.mob .logo b.luna{font-size:23px}
 .foot b.lg.luna{font-size:34px;color:#c19ee0}
 /* Luna wordmark v3 (2026-11-08): the user-edited artwork (img/site/luna-logo.png, made by _gen/luna_comp.py) used as a mask, so it takes any colour */
-.luna{display:inline-block!important;height:1.25em;width:3.27em;background:currentColor;-webkit-mask:url(img/site/luna-logo.png) left center/contain no-repeat;mask:url(img/site/luna-logo.png) left center/contain no-repeat;text-indent:-9999px;overflow:hidden;vertical-align:middle}
+.luna{display:inline-block!important;height:1.25em;width:3.27em;background:currentColor;-webkit-mask:url(img/site/luna-logo.svg) left center/contain no-repeat;mask:url(img/site/luna-logo.svg) left center/contain no-repeat;text-indent:-9999px;overflow:hidden;vertical-align:middle}
 .luna i{display:none!important}
 /* v4: Gemini's wordmark (gemini creations/5 logo/gemini-luna-v2-1.png), aspect 938:399 */
 .luna{height:1.35em;width:3.17em}
 .logo b.luna{font-size:30px}.mob .logo b.luna{font-size:26px}.foot b.lg.luna{font-size:40px}
+/* v5 (2026-11-14): Firass's "Elegant Lavender Luna" logo, redrawn by Gemini Pro and traced to SVG (img/site/luna-logo.svg), aspect 1.956 */
+.luna{-webkit-mask-image:url(img/site/luna-logo.svg);mask-image:url(img/site/luna-logo.svg);height:1.9em;width:3.72em;color:#84649e}
+.foot b.lg.luna{color:#c19ee0}
+.logo{align-items:center}
+.lw .luna.lsv{display:block!important;width:min(84vw,640px);height:auto;aspect-ratio:1.956;font-size:16px}
 .slot>img,.grain,.demo svg{will-change:transform}
 </style>
 </head>
@@ -1256,26 +1261,16 @@ const start = Math.max(0, Math.min(P.length-1, (parseInt(location.hash.slice(1))
 if(NOINTRO){ $('#loader').style.display = 'none'; cur = start; renderSlide(start); enter(start); restartAuto(); busy = true; }
 else {
   (async () => {
-    // "Luna" written with an invisible pen: img/site/luna-pen.png holds, per pixel, R = when the pen reaches it (0-255)
-    // and G = ink coverage. Made by _gen/luna_pen.py from the logo fonts and a traced stroke order (starts at the far left of the L).
+    // the Luna logo (img/site/luna-logo.svg) appears left to right with a soft edge, like it is being written
     const lw = document.querySelector('.lw'); gsap.set('.loader small', { opacity:0 }); gsap.set('.top', { autoAlpha:0 });
     const done = () => { goTo(start, true); gsap.to('.top', { autoAlpha:1, duration:.6, delay:.5 }); };
-    const img = new Image(); img.src = 'img/site/luna-pen.png';
+    const img = new Image(); img.src = 'img/site/luna-logo.svg';
     await Promise.race([img.decode().catch(() => {}), new Promise(r => setTimeout(r, 2500))]);
-    if(!img.naturalWidth){ done(); return; }
-    const W = img.naturalWidth, H = img.naturalHeight, cv = document.createElement('canvas');
-    cv.width = W; cv.height = H; cv.className = 'lsv'; lw.innerHTML = ''; lw.appendChild(cv);
-    const cx = cv.getContext('2d', { willReadFrequently:true }); cx.drawImage(img, 0, 0);
-    let src; try { src = cx.getImageData(0, 0, W, H).data; } catch(e){ lw.innerHTML = '<span class="luna"><i>L</i>una</span>'; done(); return; }
-    const out = cx.createImageData(W, H), o = out.data;
-    const ink = [0x72, 0x51, 0xb5], buckets = Array.from({ length:256 }, () => []);
-    for(let i = 0; i < W*H; i++){ const c = src[i*4 + 1]; if(c){ buckets[src[i*4]].push(i); o[i*4] = ink[0]; o[i*4+1] = ink[1]; o[i*4+2] = ink[2]; } }
-    cx.clearRect(0, 0, W, H);
-    let k = 0; const st = { t:0 };
+    lw.innerHTML = '<span class="luna lsv">Luna</span>';
+    const st = { p:0 }, wipe = () => { const e = `linear-gradient(90deg,#000 ${st.p-8}%,transparent ${st.p}%)`; lw.style.webkitMaskImage = e; lw.style.maskImage = e; };
+    wipe();
     gsap.timeline()
-      .to(st, { t:255, duration:2.4, ease:'power1.inOut', onUpdate(){ const T = Math.floor(st.t);
-        for(; k <= T; k++) for(const i of buckets[k]) o[i*4 + 3] = src[i*4 + 1];
-        cx.putImageData(out, 0, 0); } })
+      .to(st, { p:108, duration:2.4, ease:'power1.inOut', onUpdate:wipe, onComplete(){ lw.style.webkitMaskImage = lw.style.maskImage = 'none'; } })
       .to('.loader small', { opacity:.6, duration:.6, ease:'power2.out' }, 2.3)
       .call(done, null, 3.1);
   })();
