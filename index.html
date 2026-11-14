@@ -552,7 +552,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .lw .moon{z-index:2}.lw .spk{z-index:3}
 .lw .moon{position:absolute;inset:0;width:100%;height:100%;transform-origin:10.36% 74.61%;opacity:0;pointer-events:none}
 .lw .halo{position:absolute;left:10.36%;top:74.61%;width:24%;aspect-ratio:1;border-radius:50%;pointer-events:none;opacity:0;
-  background:radial-gradient(circle,rgba(255,255,255,.95) 0,rgba(255,255,255,.7) 18%,rgba(200,160,245,.55) 36%,rgba(170,120,235,.22) 55%,rgba(170,120,235,0) 70%)}
+  background:radial-gradient(circle,rgba(255,255,255,.8) 0,rgba(255,255,255,.5) 18%,rgba(200,160,245,.35) 36%,rgba(170,120,235,.12) 55%,rgba(170,120,235,0) 70%)}
 .lw .spk{position:absolute;display:block;aspect-ratio:1;pointer-events:none;fill:#9d74dc;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 8px rgba(130,70,225,.9))}
 .lw .spk svg{display:block;width:100%;height:100%}
 .slot>img,.grain,.demo svg{will-change:transform}
@@ -1286,36 +1286,38 @@ else {
     lw.innerHTML = ''; lw.appendChild(cv);
     lw.insertAdjacentHTML('beforeend', '<i class="halo"></i><img class="moon" src="img/site/luna-moon.svg" alt="">'
       + [[16.6,62,4.2],[6.8,57,2.8],[17.4,85,2.3]].map(([x,y,s]) => `<i class="spk" style="left:${x}%;top:${y}%;width:${s}%">${STAR}</i>`).join(''));
-    // ink pixels sorted by pen time (key = time * M + pixel index)
+    // ink pixels sorted by pen time (key = time * M + pixel index); the pen tip has a soft edge SOFT wide (in pen time)
     const out = cx.createImageData(W, H), o = out.data; let n = 0;
     for(let i = 0; i < M; i++) if(src[i*4+1]) n++;
     const keys = new Float64Array(n); n = 0;
     for(let i = 0; i < M; i++) if(src[i*4+1]){ keys[n++] = (src[i*4]*256 + src[i*4+2]) * M + i; o[i*4] = 0x84; o[i*4+1] = 0x64; o[i*4+2] = 0x9e; }
     keys.sort(); cx.clearRect(0, 0, W, H);
-    let k = 0; const st = { t:0 };
-    const draw = () => { const lim = (st.t*65535 + 1) * M; while(k < n && keys[k] < lim){ const i = keys[k++] % M; o[i*4+3] = src[i*4+1]; } cx.putImageData(out, 0, 0); };
+    const SOFT = 0.012; let k0 = 0, k1 = 0; const st = { t:0 };
+    const draw = () => { const T = st.t; let x0 = W, y0 = H, x1 = -1, y1 = -1;
+      while(k1 < n && keys[k1] < (T*65535 + 1) * M) k1++;                    // pixels the tip has reached
+      for(let k = k0; k < k1; k++){ const i = keys[k] % M, t = Math.floor(keys[k] / M) / 65535;
+        o[i*4+3] = src[i*4+1] * Math.min(1, (T - t) / SOFT);
+        const x = i % W, y = (i / W) | 0; if(x < x0) x0 = x; if(x > x1) x1 = x; if(y < y0) y0 = y; if(y > y1) y1 = y; }
+      while(k0 < k1 && Math.floor(keys[k0] / M) / 65535 <= T - SOFT) k0++;   // fully inked, never touched again
+      if(x1 >= 0) cx.putImageData(out, 0, 0, x0, y0, x1 - x0 + 1, y1 - y0 + 1); };
     const moon = lw.querySelector('.moon'), halo = lw.querySelector('.halo'), spk = lw.querySelectorAll('.spk');
     // moon glow: brightness + a white core + two purple blooms (same structure at every step so GSAP can tween it)
     const glow = (b, a, c, d, o) => `brightness(${b}) drop-shadow(0 0 ${a}px rgba(255,255,255,${o})) drop-shadow(0 0 ${c}px rgba(130,70,225,${o})) drop-shadow(0 0 ${d}px rgba(150,95,235,${o*.8}))`;
     gsap.set(moon, { opacity:0, scale:.3, rotation:-50, filter:glow(1, 0, 0, 0, 0) });
-    gsap.set(halo, { xPercent:-50, yPercent:-50, scale:.2, opacity:0 });
+    gsap.set(halo, { xPercent:-50, yPercent:-50, scale:.3, opacity:0 });
     gsap.set(spk, { xPercent:-50, yPercent:-50, scale:0, rotation:-45 });
-    let breathe;
     gsap.timeline()
-      .to(st, { t:1, duration:2.6, ease:'sine.inOut', onUpdate:draw })
-      .to(moon, { opacity:1, scale:1, rotation:0, duration:1.1, ease:'back.out(1.6)' }, 2.0)
-      .to(halo, { opacity:1, scale:1.15, duration:.8, ease:'power2.out' }, 2.1)
-      .to(moon, { filter:glow(1.45, 6, 18, 42, 1), duration:.6, ease:'power2.out' }, 2.2)
-      .to(moon, { filter:glow(1.2, 4, 12, 28, .9), duration:.8, ease:'sine.inOut' }, 2.8)
-      .to(halo, { opacity:.75, scale:.9, duration:.8, ease:'sine.inOut' }, 2.9)
-      .to(spk, { scale:1, rotation:45, duration:.45, ease:'back.out(3)', stagger:.18 }, 2.5)
-      .to(spk, { scale:0, rotation:135, duration:.5, ease:'power2.in', stagger:.18 }, 3.2)
+      .to(st, { t:1 + SOFT, duration:2.6, ease:'sine.inOut', onUpdate:draw })
+      .to(moon, { opacity:1, scale:1, rotation:0, duration:1.0, ease:'back.out(1.6)' }, 2.0)
+      .to(halo, { opacity:.45, scale:1, duration:.7, ease:'power2.out' }, 2.1)
+      .to(moon, { filter:glow(1.1, 3, 7, 14, .6), duration:.6, ease:'power2.out' }, 2.2)
+      .to(spk, { scale:1, rotation:45, duration:.4, ease:'back.out(3)', stagger:.15 }, 2.5)
+      .to(spk, { scale:0, rotation:135, duration:.4, ease:'power2.in', stagger:.12 }, 3.0)
+      // the glow dies down before the intro ends, leaving the plain logo
+      .to(moon, { filter:glow(1, 0, 0, 0, 0), duration:.7, ease:'sine.inOut' }, 3.0)
+      .to(halo, { opacity:0, scale:.8, duration:.7, ease:'sine.inOut' }, 3.0)
       .to('.loader small', { opacity:.6, duration:.6, ease:'power2.out' }, 2.8)
-      .call(() => { breathe = gsap.timeline({ repeat:-1, yoyo:true })
-        .to(moon, { filter:glow(1.4, 6, 16, 38, 1), duration:.9, ease:'sine.inOut' }, 0)
-        .to(halo, { opacity:1, scale:1.05, duration:.9, ease:'sine.inOut' }, 0); }, null, 3.6)
-      .call(done, null, 4.0)
-      .call(() => breathe && breathe.kill(), null, 6.5);
+      .call(done, null, 4.0);
   })();
 }
 
