@@ -443,6 +443,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .sh-b .dsc{font:400 15px/1.55 var(--sans);color:#6d6380}
 .sh-pr{font:800 34px/1 var(--cond)}
 .sh-pick{display:flex;flex-wrap:wrap;gap:8px}
+.sh-b [hidden]{display:none}
 .sp{display:flex;align-items:center;gap:8px;height:42px;padding:0 14px 0 8px;border-radius:99px;border:1.5px solid rgba(42,29,61,.14);font:600 13.5px/1 var(--sans);background:#fff}
 .sp i{width:26px;height:26px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 .sp.on{border-color:#2a1d3d;box-shadow:inset 0 0 0 1px #2a1d3d}
@@ -1297,11 +1298,11 @@ const BAGS = [
    desc:'Smooth black bucket bag. The strap threads through metal eyelets and ties in a knot, with a silver clasp on top.' },
  { id:'champagne-crescent', n:'Shoulder Bag', t1:'Champagne', t2:'Crescent', shades:[['Champagne','#d9bfa6']],
    desc:'A curved shoulder bag that sits under the arm: champagne smooth trim, a grained body, a gold zip and an adjustable strap with a small gold buckle.' },
- { id:'moon-hobo', n:'Shoulder Bag', t1:'Moon', t2:'Hobo', shades:[['Black','#141214'],['Tan','#b9825a'],['Cream','#ece2d0']],
+ { id:'moon-hobo', n:'Shoulder Bag', t1:'Moon', t2:'Hobo', shades:[['Black','#141214']],
    desc:'A slim crescent hobo in smooth leather with a thin flat strap that flows out of the bag. Clean, no hardware on the front.' },
- { id:'sage-pebble-bag', n:'Zip Shoulder Bag', t1:'Sage', t2:'Pebble Bag', shades:[['Sage green','#a9b38a'],['White','#f1eee8'],['Taupe','#a39488']],
+ { id:'sage-pebble-bag', n:'Zip Shoulder Bag', t1:'Sage', t2:'Pebble Bag', shades:[['Sage green','#a9b38a']],
    desc:'Soft pebbled leather with a long silver zip pull, side strap tabs and silver D-rings. Carry it by hand or crossbody.' },
- { id:'stone-flap-bag', n:'Crossbody Bag', t1:'Stone', t2:'Flap Bag', shades:[['Grey','#8e9399'],['Light grey','#bfc4c8'],['Taupe','#a39488']],
+ { id:'stone-flap-bag', n:'Crossbody Bag', t1:'Stone', t2:'Flap Bag', shades:[['Light grey','#bfc4c8']],
    desc:'A structured crossbody with a smooth front flap, a finely textured body, a side zip and a silver ring for the strap.' },
  { id:'midnight-zip-bag', n:'Shoulder Bag', t1:'Midnight', t2:'Zip Bag', shades:[['Black','#141214']],
    desc:'A black shoulder bag with a diagonal zip pocket on the front and silver hardware.' },
@@ -1334,7 +1335,7 @@ $('#grid').innerHTML = ALL.map(p => { const m = META[p.id] || {};
     <button class="pc-img" style="--pbg:${pbg(p)}" data-open aria-label="View ${p.t1} ${p.t2}">${m.tag?`<span class="tag${m.tag==='Bestseller'?' red':''}">${m.tag}</span>`:''}${pic(p)}</button>
     <div class="pc-b"><span class="pc-k">${p.n}</span><button class="pc-n" data-open>${p.t1.replace(' &','&nbsp;&amp;')} ${p.t2}</button>
       ${m.r ? `<span class="stars"><i>${stars(m.r)}</i>${m.r} (${m.n})</span>` : ''}
-      <span class="pc-dots">${p.shades.map(s=>`<span style="--c:${s[1]}" title="${s[0]}"></span>`).join('')}</span>
+      ${p.kind==='bag' ? '' : `<span class="pc-dots">${p.shades.map(s=>`<span style="--c:${s[1]}" title="${s[0]}"></span>`).join('')}</span>`}
       <div class="pc-f"><span class="pc-p">${money(p.price)}</span><button class="add" data-add>${BAG_I}Add</button></div></div></article>`; }).join('');
 $('#grid').addEventListener('click', e => {
   const card = e.target.closest('.pc'); if(!card) return; const p = byId(card.dataset.id);
@@ -1350,7 +1351,7 @@ document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', 
 function scrollToEl(sel){ const y = $(sel).getBoundingClientRect().top + scrollY - 70; scrollTo({ top:y, behavior:'smooth' }); }
 
 /* ---------------------------------------------------------------- cart */
-let CART = []; try { CART = JSON.parse(localStorage.getItem('muse-bag') || '[]').filter(i => byId(i.id)); } catch(e){}
+let CART = []; try { CART = JSON.parse(localStorage.getItem('muse-bag') || '[]').filter(i => byId(i.id) && byId(i.id).shades[i.j]); } catch(e){}
 const save = () => localStorage.setItem('muse-bag', JSON.stringify(CART));
 const count = () => CART.reduce((a,i) => a + i.q, 0);
 function totals(){
@@ -1416,8 +1417,8 @@ function openSheet(p, j=0){
      ${m.r ? `<span class="stars"><i>${stars(m.r)}</i>${m.r} · ${m.n} reviews</span>` : ''}
      <span class="sh-pr">${money(p.price)}</span>
      <p class="dsc">${p.desc}</p>
-     <span class="pc-k">${p.kind==='gloss'?'Shade':'Colour'}: <b id="spN" style="color:#2a1d3d">${p.shades[0][0]}</b></span>
-     <div class="sh-pick">${p.shades.map((s,k)=>`<button class="sp${k===j?' on':''}" data-j="${k}" aria-label="${s[0]}" title="${s[0]}"><i style="--c:${s[1]}"></i><span>${s[0]}</span></button>`).join('')}</div>
+     <span class="pc-k"${p.kind==='bag'?' hidden':''}>${p.kind==='gloss'?'Shade':'Colour'}: <b id="spN" style="color:#2a1d3d">${p.shades[0][0]}</b></span>
+     <div class="sh-pick"${p.kind==='bag'?' hidden':''}>${p.shades.map((s,k)=>`<button class="sp${k===j?' on':''}" data-j="${k}" aria-label="${s[0]}" title="${s[0]}"><i style="--c:${s[1]}"></i><span>${s[0]}</span></button>`).join('')}</div>
      <div class="sh-buy"><div class="qty"><button data-q="-1" aria-label="Less">−</button><span id="spQ">1</span><button data-q="1" aria-label="More">+</button></div>
        <button class="btn rd" id="spAdd">${BAG_I}<span>Add · ${money(p.price)}</span></button></div>
      <div class="perks">
