@@ -556,6 +556,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .lw .spk{position:absolute;display:block;aspect-ratio:1;pointer-events:none;fill:#9d74dc;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 8px rgba(130,70,225,.9))}
 .lw .spk svg{display:block;width:100%;height:100%}
 .slot>img,.grain,.demo svg{will-change:transform}
+/* Black Friday (makeup sale, ends BF_END) + makeup products with real photos */
+.bf-band{background:#150d1d;color:#fff;padding:22px 0}
+.bf-band .wrap{display:flex;align-items:center;gap:22px 28px;flex-wrap:wrap}
+.bf-l{flex:1 1 300px;display:flex;flex-direction:column;gap:5px}
+.bf-k{font:800 12px/1 var(--cond);letter-spacing:.32em;text-transform:uppercase;color:#ff4d7d}
+.bf-l b{font:800 32px/1.02 var(--cond);letter-spacing:.01em}
+.bf-l small{color:rgba(255,255,255,.68);font:400 13px/1.45 var(--sans)}
+.bf-c{display:flex;gap:8px}
+.bf-c span{display:flex;flex-direction:column;align-items:center;min-width:60px;padding:9px 6px 8px;border-radius:12px;background:rgba(255,255,255,.08);font:600 10px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.bf-c b{font:800 28px/1 var(--cond);color:#fff;margin-bottom:5px;font-variant-numeric:tabular-nums}
+.bf-go{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:99px;background:#e0245e;color:#fff;font:700 14px/1 var(--sans);text-decoration:none;white-space:nowrap}
+.bf-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bf-band[hidden],.menu a[hidden],.fl[hidden],.foot a[hidden]{display:none!important}
+.menu a.bf-link{color:#ff4d7d;opacity:1;font-weight:700}
+.fl.bf-fl{border-color:#e0245e;color:#e0245e}.fl.bf-fl.on{background:#e0245e;color:#fff}
+.pc.bfc .tag.red{background:#e0245e}
+s.was{font-weight:500;font-size:.6em;color:#9a8fa8;margin-right:3px;text-decoration-thickness:1.5px;vertical-align:.15em}
+.pc.bfc .pc-p{color:#d01f55}
+.bf-note{display:block;margin-top:9px;color:#d01f55;font:700 13px/1.35 var(--sans)}
+.pc-sh{display:block;margin-top:4px;font:500 12.5px/1 var(--sans);color:#6d6380}
+.sp.tx{width:auto;height:40px;padding:0 15px;border-radius:99px;border:1.5px solid rgba(42,29,61,.14);background:#fff;justify-content:center}
+.sp.tx i{display:none}
+.sp.tx span{position:static;width:auto;height:auto;overflow:visible;clip:auto}
+.sp.tx.on{border-color:#2a1d3d;background:#2a1d3d;color:#fff}
+@media (max-width:700px){.bf-band{padding:18px 0}.bf-l b{font-size:26px}.bf-c{width:100%;justify-content:space-between}.bf-c span{flex:1;min-width:0}.bf-go{width:100%;justify-content:center}}
 </style>
 </head>
 <body>
@@ -580,7 +605,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
   <header class="top">
     <a class="logo" href="#" style="color:inherit;text-decoration:none"><b class="luna"><i>L</i>una</b><small>Beauty Boutique</small></a>
-    <nav class="menu"><a href="#shop" data-go="gloss">Lip Gloss</a><a href="#shop" data-go="mascara">Mascara</a><a href="#shop" data-go="bag">Bags</a><a href="#shop" data-go="all">Bestsellers</a><a href="#duo">The Duo</a><a href="#faq">Help</a></nav>
+    <nav class="menu"><a href="#shop" data-go="bf" class="bf-link">Black Friday</a><a href="#shop" data-go="makeup">Makeup</a><a href="#shop" data-go="gloss">Lip Gloss</a><a href="#shop" data-go="mascara">Mascara</a><a href="#shop" data-go="bag">Bags</a><a href="#shop" data-go="all">Bestsellers</a><a href="#duo">The Duo</a><a href="#faq">Help</a></nav>
     <div class="tools">
       <button class="ic" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
       <button class="ic" id="bag" aria-label="Bag"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="n" id="bagN">0</span></button>
@@ -595,6 +620,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 
 <main class="site" id="site">
+  <section class="bf-band" id="bfBand" aria-label="Black Friday sale" hidden><div class="wrap">
+    <div class="bf-l"><span class="bf-k">Black Friday</span><b>Up to <span id="bfMax">25</span>% off makeup</b><small>L'Oréal, Maybelline, Bourjois, Ever Beauty and more · ends Monday 30 Nov</small></div>
+    <div class="bf-c" id="bfClock" aria-label="Time left"><span><b id="bfD">0</b>days</span><span><b id="bfH">0</b>hrs</span><span><b id="bfM">0</b>min</span><span><b id="bfS">0</b>sec</span></div>
+    <a class="bf-go" href="#shop" data-go="bf">Shop the sale <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div></section>
   <section class="trust" aria-label="Why shop with us"><div class="wrap">
     <div class="tr"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="m9 12 2 2 4-4"/></svg><div><b>100% original</b><small>Genuine products, sealed</small></div></div>
     <div class="tr"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><div><b>Fast delivery</b><small>Free over $<span class="frT">50</span></small></div></div>
@@ -605,7 +635,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   <section class="sec" id="shop"><div class="wrap">
     <div class="sec-h"><div><div class="kick">Shop the edit</div><h2 class="h2">Best<em>sellers</em></h2></div></div>
     <div class="filters" id="filters">
-      <button class="fl on" data-f="all">All</button><button class="fl" data-f="gloss">Lip gloss</button><button class="fl" data-f="mascara">Mascara</button><button class="fl" data-f="bag">Bags</button><button class="fl" data-f="new">New in</button>
+      <button class="fl on" data-f="all">All</button><button class="fl bf-fl" data-f="bf">Black Friday</button><button class="fl" data-f="makeup">Makeup</button><button class="fl" data-f="gloss">Lip gloss</button><button class="fl" data-f="mascara">Mascara</button><button class="fl" data-f="bag">Bags</button><button class="fl" data-f="new">New in</button>
     </div>
     <div class="grid" id="grid"></div>
   </div></section>
@@ -652,7 +682,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
   <footer class="foot"><div class="wrap">
     <div><b class="lg luna"><i>L</i>una</b><p>Lip gloss, mascara, bags and beauty accessories, delivered to your door.</p></div>
-    <div><h4>Shop</h4><a href="#shop" data-go="gloss">Lip gloss</a><a href="#shop" data-go="mascara">Mascara</a><a href="#shop" data-go="bag">Bags</a><a href="#duo">The duo</a><a href="#shop" data-go="new">New in</a></div>
+    <div><h4>Shop</h4><a href="#shop" data-go="bf">Black Friday</a><a href="#shop" data-go="makeup">Makeup</a><a href="#shop" data-go="gloss">Lip gloss</a><a href="#shop" data-go="mascara">Mascara</a><a href="#shop" data-go="bag">Bags</a><a href="#duo">The duo</a><a href="#shop" data-go="new">New in</a></div>
     <div><h4>Help</h4><a href="#faq">Delivery</a><a href="#faq">Returns</a><a href="#faq">Payment</a><a href="#faq">Contact us</a></div>
     <div><h4>Get 10% off your first order</h4><form class="news" onsubmit="event.preventDefault();this.innerHTML='<span style=&quot;padding:12px 16px&quot;>Thanks, check your inbox.</span>'"><input type="email" placeholder="Your email" required aria-label="Email"><button>Join</button></form>
       <div class="pay"><span>Cash on delivery</span><span>Visa</span><span>Mastercard</span></div></div>
@@ -1352,7 +1382,50 @@ const BAGS = [
    desc:'A soft cream shoulder bag with brown leather trim and a brown leather handle.' },
 ].map(b => ({ ...b, kind:'bag', price:BAG_PRICE, bg:'#f3eef6' }));
 BAGS.forEach(b => META[b.id] = { tag:'New', isNew:1 });
-const ALL = P.concat(BAGS);
+/* makeup from the supplier price list (16 Nov 2026). Photo = img/makeup/<id>.jpg.
+   Row: id, brand, name, type, category, regular price (= usual price at Lebanese beauty shops), Black Friday price (0 = no sale), description, shades.
+   The sale ends by itself at BF_END: after that every product shows its regular price. */
+const BF_END = new Date('2026-11-30T23:59:59+02:00'), BF_ON = Date.now() < BF_END;
+const MAKEUP = [
+ ["ever-beauty-long-lash-mascara","Ever Beauty","Long Lash Mascara","Mascara","eyes",3.5,2.5,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["ever-beauty-magic-blush-for-cheeks-lips","Ever Beauty","Magic Blush for Cheeks & Lips","Blush","face",3.5,2.5,"Buildable colour for a fresh, healthy flush.",[]],
+ ["bourjois-twist-up-the-volume-mascara-gold-pack","Bourjois","Twist Up The Volume Mascara","Mascara","eyes",16,12,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["bourjois-volume-glamour-mascara-pink-pack","Bourjois","Volume Glamour Mascara","Mascara","eyes",12,9,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["ever-beauty-cream-blush-stick-with-brush","Ever Beauty","Cream Blush Stick (with brush)","Blush","face",4,3,"Buildable colour for a fresh, healthy flush.",[]],
+ ["ever-beauty-foundation-with-sunscreen-spf","Ever Beauty","Foundation with Sunscreen (SPF)","Foundation","face",6,4.5,"Long-wearing foundation for an even, natural-looking finish.",[]],
+ ["ever-beauty-highlighter-stick-dual-ended-with-brush","Ever Beauty","Highlighter Stick (dual-ended, with brush)","Highlighter","face",4,3,"Adds a soft glow to cheekbones and the face.",[]],
+ ["ever-beauty-matte-concealer-hides-blemishes","Ever Beauty","Matte Concealer (hides blemishes)","Concealer","face",4,3,"Covers dark circles and blemishes and blends in easily.",["No. 8850","No. 8851"]],
+ ["ever-beauty-pre-makeup-milk-primer-serum-30-ml","Ever Beauty","Pre-Makeup Milk Primer Serum 30 ml","Primer","face",6,4.5,"Smooths skin so makeup goes on evenly and lasts longer.",[]],
+ ["ever-beauty-lip-tint","Ever Beauty","Lip Tint","Lip tint","lips",2,1.5,"",[]],
+ ["ever-beauty-matte-lipstick","Ever Beauty","Matte Lipstick","Lipstick","lips",2,1.5,"Rich colour that lasts all day.",[]],
+ ["l-oreal-paris-mega-volume-collagen-mascara","L'Oréal Paris","Mega Volume Collagen Mascara","Mascara","eyes",16.5,12.5,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["bourjois-healthy-mix-foundation","Bourjois","Healthy Mix Foundation","Foundation","face",17,13,"Long-wearing foundation for an even, natural-looking finish.",["51.2","52","49.5","50","51.5","51"]],
+ ["ever-beauty-triple-action-mascara-with-argan-oil-gold-pack","Ever Beauty","Triple Action Mascara with Argan Oil","Mascara","eyes",6.5,5,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["ever-beauty-3d-magic-foundation","Ever Beauty","3D Magic Foundation","Foundation","face",6.5,5,"Long-wearing foundation for an even, natural-looking finish.",[]],
+ ["ever-beauty-fix-matte-setting-spray-120-ml","Ever Beauty","Fix + Matte Setting Spray 120 ml","Setting spray","face",4.5,3.5,"Locks makeup in place and keeps it fresh all day.",[]],
+ ["ever-beauty-waterproof-eyeliner","Ever Beauty","Waterproof Eyeliner","Eyeliner","eyes",5,4,"Precise, waterproof lines that stay put.",[]],
+ ["ever-beauty-cheek-lip-colour","Ever Beauty","Cheek & Lip Colour","Blush","face",2.5,2,"Buildable colour for a fresh, healthy flush.",[]],
+ ["ever-beauty-hd-full-cover-foundation-hides-blemishes","Ever Beauty","HD Full-Cover Foundation (hides blemishes)","Foundation","face",5,4,"Long-wearing foundation for an even, natural-looking finish.",[]],
+ ["ever-beauty-dual-ended-lipstick","Ever Beauty","Dual-Ended Lipstick","Lipstick","lips",2.5,2,"Rich colour that lasts all day.",["No. 7103","No. 7104"]],
+ ["ever-beauty-lip-balm-4-g","Ever Beauty","Lip Balm 4 g","Lip balm","lips",2.5,2,"",[]],
+ ["maybelline-instant-age-rewind-eraser-concealer","Maybelline","Instant Age Rewind Eraser Concealer","Concealer","face",11.5,9.5,"Covers dark circles and blemishes and blends in easily.",["00","06","07 (new)","02","03"]],
+ ["ever-beauty-hair-stroke-eyebrow-pen","Ever Beauty","Hair-Stroke Eyebrow Pen","Eyebrow","eyes",3,2.5,"",[]],
+ ["ever-beauty-waterproof-dip-eyeliner","Ever Beauty","Waterproof Dip Eyeliner","Eyeliner","eyes",3,2.5,"Precise, waterproof lines that stay put.",[]],
+ ["ever-beauty-highlighter","Ever Beauty","Highlighter","Highlighter","face",3,2.5,"Adds a soft glow to cheekbones and the face.",[]],
+ ["l-oreal-paris-infaillible-32h-matte-cover-foundation","L'Oréal Paris","Infaillible 32H Matte Cover Foundation","Foundation","face",12,10,"Long-wearing foundation for an even, natural-looking finish.",["145","25","110","290"]],
+ ["maybelline-fit-me-foundation","Maybelline","Fit Me Foundation","Foundation","face",9.5,8,"Long-wearing foundation for an even, natural-looking finish.",["220","100","104","095"]],
+ ["essence-lash-princess-mascara","essence","Lash Princess Mascara","Mascara","eyes",5,0,"Builds lashes that look longer and fuller, without clumps.",["Waterproof (blue pack)","Green pack","Fuchsia pack","Orange pack","Mauve pack"]],
+ ["l-oreal-paris-telescopic-lift-mascara-9-9-ml","L'Oréal Paris","Telescopic Lift Mascara","Mascara","eyes",11.5,0,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["maybelline-lash-sensational-firework-mascara-fuchsia-pack","Maybelline","Lash Sensational Firework Mascara","Mascara","eyes",13,0,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["maybelline-lash-sensational-mascara-pink-pack","Maybelline","Lash Sensational Mascara","Mascara","eyes",9.5,0,"Builds lashes that look longer and fuller, without clumps.",[]],
+ ["l-oreal-paris-infaillible-more-than-concealer","L'Oréal Paris","Infaillible More Than Concealer","Concealer","face",11,0,"Covers dark circles and blemishes and blends in easily.",["322","323","324","326","327"]],
+ ["maybelline-fit-me-concealer","Maybelline","Fit Me Concealer","Concealer","face",8,0,"Covers dark circles and blemishes and blends in easily.",["15","20"]],
+ ["maybelline-superstay-vinyl-ink-liquid-lipstick","Maybelline","SuperStay Vinyl Ink Liquid Lipstick","Lipstick","lips",11.5,0,"Rich colour that lasts all day.",["100","110"]]
+].map(([id, brand, name, type, cat, reg, bf, desc, sh]) => ({ id, kind:'makeup', cat, n:type, t1:brand, t2:name, desc, reg,
+  price: BF_ON && bf ? bf : reg, was: BF_ON && bf ? reg : 0, bg:'#ffffff',
+  shades: (!sh.length ? ['Standard'] : sh.every(x => !isNaN(parseFloat(x))) ? [...sh].sort((a, b) => parseFloat(a) - parseFloat(b)) : sh).map(x => [x, '']) }));
+MAKEUP.forEach(p => META[p.id] = p.was ? { tag:'Black Friday −' + Math.round((1 - p.price / p.was) * 100) + '%', bf:1, isNew:1 } : { tag:'New', isNew:1 });
+const ALL = P.concat(MAKEUP, BAGS);
 const byId = id => ALL.find(p => p.id === id);
 const money = v => SHOP.cur + v.toFixed(2);
 const root = document.documentElement;
@@ -1362,21 +1435,25 @@ document.querySelectorAll('.shT').forEach(e => e.textContent = SHOP.ship);
 /* product picture: the Gemini card shot, with the hero's own cut-outs as the fallback underneath */
 function pic(p){
   if(p.kind === 'bag') return `<img class="bagp" src="img/bags/${p.id}.jpg" alt="${p.t1} ${p.t2} ${p.n}" loading="lazy" decoding="async">`;
+  if(p.kind === 'makeup') return `<img class="bagp" src="img/makeup/${p.id}.jpg" alt="${p.t1} ${p.t2}" loading="lazy" decoding="async">`;
   return `<div class="fbx"><img src="img/${p.id}/tube.webp" alt="" loading="lazy" decoding="async" onerror="this.parentNode.remove()"><img src="img/${p.id}/wand.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div>`
        + `<img src="img/${p.id}/card.webp" alt="${p.t1} ${p.t2} ${p.n}" loading="lazy" onerror="this.remove()">`;
 }
-const pbg = p => p.kind === 'bag' ? '#ffffff' : `linear-gradient(160deg,${mix(p.bg,'#ffffff',.25)},${p.bg})`;
+const plain = p => p.kind === 'bag' || p.kind === 'makeup'; // real product photos on white, no colour dots
+const hasShades = p => p.kind !== 'bag' && !(p.kind === 'makeup' && p.shades.length === 1 && p.shades[0][0] === 'Standard');
+const priceHtml = p => (p.was ? `<s class="was">${money(p.was)}</s> ` : '') + money(p.price);
+const pbg = p => plain(p) ? '#ffffff' : `linear-gradient(160deg,${mix(p.bg,'#ffffff',.25)},${p.bg})`;
 const stars = r => '★★★★★'.slice(0, Math.round(r));
 
 /* ---------------------------------------------------------------- grid */
 const BAG_I = '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
 $('#grid').innerHTML = ALL.map(p => { const m = META[p.id] || {};
-  return `<article class="pc" data-id="${p.id}" data-k="${p.kind}" data-new="${m.isNew?1:0}">
-    <button class="pc-img" style="--pbg:${pbg(p)}" data-open aria-label="View ${p.t1} ${p.t2}">${m.tag?`<span class="tag${m.tag==='Bestseller'?' red':''}">${m.tag}</span>`:''}${pic(p)}</button>
-    <div class="pc-b"><span class="pc-k">${p.n}</span><button class="pc-n" data-open>${p.t1.replace(' &','&nbsp;&amp;')} ${p.t2}</button>
+  return `<article class="pc${m.bf?' bfc':''}" data-id="${p.id}" data-k="${p.kind}" data-new="${m.isNew?1:0}" data-bf="${m.bf?1:0}">
+    <button class="pc-img" style="--pbg:${pbg(p)}" data-open aria-label="View ${p.t1} ${p.t2}">${m.tag?`<span class="tag${m.tag==='Bestseller'||m.bf?' red':''}">${m.tag}</span>`:''}${pic(p)}</button>
+    <div class="pc-b"><span class="pc-k">${p.kind==='makeup' ? `${p.t1} · ${p.n}` : p.n}</span><button class="pc-n" data-open>${p.kind==='makeup' ? p.t2.replace(/&/g,'&amp;') : p.t1.replace(' &','&nbsp;&amp;')+' '+p.t2}</button>
       ${m.r ? `<span class="stars"><i>${stars(m.r)}</i>${m.r} (${m.n})</span>` : ''}
-      ${p.kind==='bag' ? '' : `<span class="pc-dots">${p.shades.map(s=>`<span style="--c:${s[1]}" title="${s[0]}"></span>`).join('')}</span>`}
-      <div class="pc-f"><span class="pc-p">${money(p.price)}</span><button class="add" data-add>${BAG_I}Add</button></div></div></article>`; }).join('');
+      ${plain(p) ? (hasShades(p) ? `<span class="pc-sh">${p.shades.length} ${p.n==='Foundation'||p.n==='Concealer'||p.n==='Lipstick'?'shades':'options'}</span>` : '') : `<span class="pc-dots">${p.shades.map(s=>`<span style="--c:${s[1]}" title="${s[0]}"></span>`).join('')}</span>`}
+      <div class="pc-f"><span class="pc-p">${priceHtml(p)}</span><button class="add" data-add>${BAG_I}Add</button></div></div></article>`; }).join('');
 $('#grid').addEventListener('click', e => {
   const card = e.target.closest('.pc'); if(!card) return; const p = byId(card.dataset.id);
   if(e.target.closest('[data-add]')){ addItem(p.id, 0, 1); flyFrom(e.target.closest('[data-add]')); }
@@ -1384,11 +1461,23 @@ $('#grid').addEventListener('click', e => {
 });
 function filter(f){
   document.querySelectorAll('.fl').forEach(b => b.classList.toggle('on', b.dataset.f === f));
-  document.querySelectorAll('.pc').forEach(c => c.classList.toggle('hide', !(f === 'all' || c.dataset.k === f || (f === 'new' && c.dataset.new === '1'))));
+  document.querySelectorAll('.pc').forEach(c => c.classList.toggle('hide', !(f === 'all' || c.dataset.k === f || (f === 'new' && c.dataset.new === '1') || (f === 'bf' && c.dataset.bf === '1'))));
 }
 $('#filters').addEventListener('click', e => { const b = e.target.closest('.fl'); if(b) filter(b.dataset.f); });
 document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); filter(a.dataset.go); scrollToEl('#shop'); }));
 function scrollToEl(sel){ const y = $(sel).getBoundingClientRect().top + scrollY - 70; scrollTo({ top:y, behavior:'smooth' }); }
+/* Black Friday band + countdown. Everything Black Friday hides itself after BF_END (prices are already back to regular then). */
+(() => {
+  const sale = MAKEUP.filter(p => p.was), on = BF_ON && sale.length > 0;
+  document.querySelectorAll('.bf-link, .bf-fl, [data-go="bf"]').forEach(e => e.hidden = !on);
+  if(!on) return;
+  $('#bfBand').hidden = false;
+  $('#bfMax').textContent = Math.max(...sale.map(p => Math.round((1 - p.price / p.was) * 100)));
+  const tick = () => { const s = Math.max(0, Math.floor((BF_END - Date.now()) / 1000)); if(!s){ location.reload(); return; }
+    $('#bfD').textContent = Math.floor(s / 86400); $('#bfH').textContent = Math.floor(s % 86400 / 3600);
+    $('#bfM').textContent = Math.floor(s % 3600 / 60); $('#bfS').textContent = s % 60; };
+  tick(); setInterval(tick, 1000);
+})();
 
 /* ---------------------------------------------------------------- cart */
 let CART = []; try { CART = JSON.parse(localStorage.getItem('muse-bag') || '[]').filter(i => byId(i.id) && byId(i.id).shades[i.j]); } catch(e){}
@@ -1410,7 +1499,7 @@ function addItem(id, j, q, quiet){
   save(); renderBag(); badge(true);
   if(!quiet){ const p = byId(id);
     if($('#sbar').classList.contains('on')) gsap.fromTo('#sbar', { scale:1.04 }, { scale:1, duration:.5, ease:'elastic.out(1.2,.4)' });
-    else toast(`${p.t1.replace(' &','')} ${p.t2} · ${p.shades[j][0]} added`); }
+    else toast(`${p.t1.replace(' &','')} ${p.t2}${hasShades(p) || p.kind !== 'makeup' ? ' · ' + p.shades[j][0] : ''} added`); }
 }
 function badge(pop){
   const n = $('#bagN'), c = count(); n.textContent = c; n.classList.toggle('has', c > 0);
@@ -1450,15 +1539,16 @@ function openSheet(p, j=0){
   let sj = j, q = 1; const m = META[p.id] || {};
   const S = $('#sheet');
   S.innerHTML = `<button class="x" data-x aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-   <div class="sh-img" style="--pbg:${p.kind==='bag'?'#fff':p.bg}">${pic(p)}</div>
+   <div class="sh-img" style="--pbg:${plain(p)?'#fff':p.bg}">${pic(p)}</div>
    <div class="sh-b">
-     <span class="pc-k">${p.n}${m.tag?' · '+m.tag:''}</span>
-     <h3>${p.t1.replace(' &',' &amp;')} ${p.t2}</h3>
+     <span class="pc-k">${p.kind==='makeup'?p.t1+' · ':''}${p.n}${m.tag?' · '+m.tag:''}</span>
+     <h3>${p.kind==='makeup' ? p.t2.replace(/&/g,'&amp;') : p.t1.replace(' &',' &amp;')+' '+p.t2}</h3>
      ${m.r ? `<span class="stars"><i>${stars(m.r)}</i>${m.r} · ${m.n} reviews</span>` : ''}
-     <span class="sh-pr">${money(p.price)}</span>
+     <span class="sh-pr">${priceHtml(p)}</span>
+     ${p.was ? `<span class="bf-note">Black Friday price · you save ${money(p.was - p.price)} · ends Mon 30 Nov</span>` : ''}
      <p class="dsc">${p.desc}</p>
-     <span class="pc-k"${p.kind==='bag'?' hidden':''}>${p.kind==='gloss'?'Shade':'Colour'}: <b id="spN" style="color:#2a1d3d">${p.shades[0][0]}</b></span>
-     <div class="sh-pick"${p.kind==='bag'?' hidden':''}>${p.shades.map((s,k)=>`<button class="sp${k===j?' on':''}" data-j="${k}" aria-label="${s[0]}" title="${s[0]}"><i style="--c:${s[1]}"></i><span>${s[0]}</span></button>`).join('')}</div>
+     <span class="pc-k"${hasShades(p)?'':' hidden'}>${p.kind==='gloss'||(p.kind==='makeup'&&/^(Foundation|Concealer|Lipstick)$/.test(p.n))?'Shade':p.kind==='makeup'?'Option':'Colour'}: <b id="spN" style="color:#2a1d3d">${p.shades[0][0]}</b></span>
+     <div class="sh-pick"${hasShades(p)?'':' hidden'}>${p.shades.map((s,k)=>`<button class="sp${p.kind==='makeup'?' tx':''}${k===j?' on':''}" data-j="${k}" aria-label="${s[0]}" title="${s[0]}"><i style="--c:${s[1]}"></i><span>${s[0]}</span></button>`).join('')}</div>
      <div class="sh-buy"><div class="qty"><button data-q="-1" aria-label="Less">−</button><span id="spQ">1</span><button data-q="1" aria-label="More">+</button></div>
        <button class="btn rd" id="spAdd">${BAG_I}<span>Add · ${money(p.price)}</span></button></div>
      <div class="perks">
@@ -1506,7 +1596,7 @@ function renderBag(){
     const hasG = CART.some(i => byId(i.id).kind === 'gloss'), hasM = CART.some(i => byId(i.id).kind === 'mascara');
     B.innerHTML = CART.map((i,k) => { const p = byId(i.id), s = p.shades[i.j];
       return `<div class="li"><div class="th" style="--pbg:${pbg(p)}">${pic(p)}</div>
-        <div><b>${p.t1.replace(' &',' &amp;')} ${p.t2}</b><small><i style="--c:${s[1]}"></i>${s[0]}</small>
+        <div><b>${p.t1.replace(' &',' &amp;')} ${p.t2.replace(/&/g,'&amp;')}</b>${hasShades(p) || p.kind !== 'makeup' ? `<small>${s[1] ? `<i style="--c:${s[1]}"></i>` : ''}${s[0]}</small>` : ''}
         <div class="qty"><button data-k="${k}" data-d="-1" aria-label="Less">−</button><span>${i.q}</span><button data-k="${k}" data-d="1" aria-label="More">+</button></div></div>
         <div><div class="pr">${money(p.price*i.q)}</div><button class="rm" data-rm="${k}">Remove</button></div></div>`; }).join('')
       + (hasG !== hasM ? (() => { const u = P.find(x => x.kind === (hasG ? 'mascara' : 'gloss') && (META[x.id]||{}).tag === 'Bestseller');
